@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Search, X, Plus, ChevronLeft, TrendingUp, Users, Download, Camera } from "lucide-react";
 import { Player } from './dats/players';
 import { EnhancedBreakingPointRatingSystem } from './utils/ratingSystem';
@@ -799,7 +799,7 @@ const PlayerSelectionPanel = ({
                         src={player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
                         alt={player.player_name}
                         className="absolute inset-0 w-full h-full object-cover rounded-full z-30"
-                        onLoad={(e) => {
+                        onLoad={(_e) => {
                           const fallback = document.getElementById(`fallback-${player.id}-panel`);
                           if (fallback) fallback.style.display = 'none';
                         }}
@@ -995,13 +995,13 @@ export default function App() {
                 setLoadError('Error processing CSV data. Please check the file format.');
               }
             },
-            error: (error) => {
+            error: (error: any) => {
               console.error('Error parsing Challengers CSV:', error);
               setLoadError('Error parsing Challengers CSV file.');
             }
           });
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error parsing CDL CSV:', error);
           setLoadError('Error parsing CDL CSV file.');
         }

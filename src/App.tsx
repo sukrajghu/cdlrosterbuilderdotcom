@@ -596,7 +596,7 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
                       src={player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
                       alt={player.player_name}
                       className="absolute inset-0 w-full h-full object-cover z-30"
-                      onLoad={(e) => {
+                      onLoad={(_e) => {
                         const fallback = document.getElementById(`fallback-${player.id}-team-${index}`);
                         if (fallback) fallback.style.display = 'none';
                       }}

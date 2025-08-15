@@ -462,9 +462,6 @@ export class EnhancedBreakingPointRatingSystem {
         ctl_eng10m: combinedPlayer.ctl_eng10m,
         zone_captures: combinedPlayer.zone_captures,
         total_maps: Math.max(combinedPlayer.cdl_games, combinedPlayer.challengers_games),
-        snd_maps: combinedPlayer.snd_maps,
-        ctl_maps: combinedPlayer.ctl_maps,
-        hp_maps: combinedPlayer.hp_maps,
         game_time_min: combinedPlayer.game_time_min
       };
 

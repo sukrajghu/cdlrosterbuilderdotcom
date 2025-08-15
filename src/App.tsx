@@ -59,7 +59,7 @@ const Header = ({ onShowFreeAgents, onExportRosters, onShowRankings }: {
     </div>
     
     {/* CSS Animation Keyframes */}
-    <style jsx>{`
+    <style>{`
       @keyframes slide {
         0% { transform: translateX(-100%); }
         100% { transform: translateX(calc(100vw + 128px)); }
@@ -80,7 +80,7 @@ const Header = ({ onShowFreeAgents, onExportRosters, onShowRankings }: {
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 text-sm hidden md:inline hover:text-purple-400 transition-colors cursor-pointer underline"
-            onClick={(e) => {
+            onClick={(_e) => {
               console.log('Twitter link clicked!');
               window.open('https://x.com/tr04r', '_blank');
             }}
@@ -285,7 +285,7 @@ const RankingsModal = ({
                               src={player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
                               alt={player.player_name}
                               className="absolute inset-0 w-full h-full object-cover rounded-full z-30"
-                              onLoad={(e) => {
+                              onLoad={(_e) => {
                                 const fallback = document.getElementById(`fallback-${player.id}-ranking-${index}`);
                                 if (fallback) fallback.style.display = 'none';
                               }}
@@ -416,7 +416,7 @@ const FreeAgentsModal = ({
                       src={player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
                       alt={player.player_name}
                       className="absolute inset-0 w-full h-full object-cover rounded-full z-30"
-                      onLoad={(e) => {
+                      onLoad={(_e) => {
                         const fallback = document.getElementById(`fallback-${player.id}-free`);
                         if (fallback) fallback.style.display = 'none';
                       }}
@@ -682,8 +682,8 @@ const PlayerSelectionPanel = ({
   onClose, 
   onPlayerSelect, 
   availablePlayers,
-  selectedTeam,
-  selectedSlot,
+  //selectedTeam,
+  //selectedSlot,
   playerRatings
 }: {
   isOpen: boolean;

@@ -777,7 +777,17 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
             >
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="font-bold text-sm sm:text-lg text-white truncate">{team.name}</h3>
+              <h3 
+              className="font-bold text-sm sm:text-lg text-white truncate"
+              style={{ 
+                lineHeight: '1.8',
+                paddingBottom: '4px',
+                minHeight: '24px'
+              }}
+            >
+              {team.name}
+            </h3>
+
               <p className="text-xs text-gray-400">{team.players.filter(p => p !== null).length}/4 Players</p>
             </div>
           </div>
@@ -840,14 +850,20 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
                       }}
                     />
                     
-                    <div className="absolute top-1 left-1 bg-purple-500 text-white px-1 py-0.5 sm:px-1.5 sm:py-0.5 rounded text-xs font-bold z-40">
-                      {Math.round(playerRating)}
+                    {/* UPDATED: Rating badge - keep purple background in same position but move number up */}
+                    <div className="absolute top-1 left-1 bg-purple-500 text-white px-1 py-0.5 sm:px-1.5 sm:py-0.5 rounded text-xs font-bold z-40 flex items-start">
+                      <span className="transform -translate-y-0.5">{Math.round(playerRating)}</span>
                     </div>
                     
-                    {/* Player name at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-1 sm:p-2 z-50">
-                      <div className="text-white text-xs font-medium text-center truncate">{player.player_name}</div>
+                    {/* UPDATED: Player name - move up from bottom */}
+                    <div className="absolute bottom-2 left-0 right-0 z-50">
+                    <div className="bg-gradient-to-t from-black/90 to-transparent px-1 sm:px-2 pt-3 pb-2">
+                      <div className="text-white text-xs font-medium text-center">
+                        {player.player_name}
+                      </div>
                     </div>
+                  </div>
+
                   </>
                 ) : (
                   <>

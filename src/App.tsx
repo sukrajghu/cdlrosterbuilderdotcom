@@ -4,7 +4,7 @@ import { Player } from './dats/players';
 import { EnhancedBreakingPointRatingSystem } from './utils/ratingSystem';
 import Papa from 'papaparse';
 import html2canvas from 'html2canvas';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 // Defines the structure for a Team object
 interface Team {
@@ -1640,7 +1640,7 @@ export default function App() {
         playerRatings={playerRatings}
       />
 
-      <Analytics />
+      <Analytics /> 
     </div>
   );
 }

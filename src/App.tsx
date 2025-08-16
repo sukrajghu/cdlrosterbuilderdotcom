@@ -910,8 +910,8 @@ const PlayerSelectionPanel = ({
   onClose, 
   onPlayerSelect, 
   availablePlayers,
-  selectedTeam,
-  selectedSlot,
+  //selectedTeam,
+  //selectedSlot,
   playerRatings
 }: {
   isOpen: boolean;

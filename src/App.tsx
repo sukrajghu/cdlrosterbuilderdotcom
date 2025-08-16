@@ -42,71 +42,298 @@ const CDL_TEAMS = [
   { id: 'gentlemates', name: 'LA GENTLE M8', brandColor: '#9333ea', logo: '/team-logos/gentlem8.png' }
 ];
 
-// Header Component
+// Header Component - Cool gaming-inspired design
 const Header = ({ onShowFreeAgents, onExportRosters, onShowRankings }: {
   onShowFreeAgents: () => void;
   onExportRosters: () => void;
   onShowRankings: () => void;
-}) => (
-  <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-[60] relative overflow-hidden">
-    {/* Animated Neon Gold Accent Line */}
-    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-80">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-300 to-transparent animate-pulse"></div>
-      <div className="absolute inset-0 w-32 h-full bg-gradient-to-r from-transparent via-yellow-200 to-transparent animate-ping opacity-75" 
-           style={{
-             animation: 'slide 3s linear infinite',
-           }}></div>
-    </div>
-    
-    {/* CSS Animation Keyframes */}
-    <style>{`
-      @keyframes slide {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(calc(100vw + 128px)); }
-      }
-    `}</style>
-    
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="flex items-center justify-between h-16">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">R</span>
-          </div>
-          <span className="text-xl font-bold text-white">
-            CDLROSTERBUILDER<span className="text-purple-500">.COM</span>
-          </span>
-          <a 
-            href="https://x.com/tr04r" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-gray-400 text-sm hidden md:inline hover:text-purple-400 transition-colors cursor-pointer underline"
-            onClick={(_e) => {
-              console.log('Twitter link clicked!');
-              window.open('https://x.com/tr04r', '_blank');
-            }}
-          >
-            by @TROAR
-          </a>
-        </div>
+}) => {
+  const [isLogoZoomed, setIsLogoZoomed] = useState(false);
 
-        <div className="flex items-center gap-4">
-          <button onClick={onShowRankings} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-            <TrendingUp className="w-4 h-4" />
-            <span className="hidden md:inline">Rankings</span>
-          </button>
-          <button onClick={onShowFreeAgents} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-            <Users className="w-4 h-4" />
-            <span className="hidden md:inline">Free Agents</span>
-          </button>
-          <button onClick={onExportRosters} className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-            <Download className="w-4 h-4" />
-            <span className="hidden md:inline">Export Rosters</span>
-          </button>
+  return (
+    <>
+      <header className="bg-gradient-to-r from-gray-900 via-black to-gray-900 border-b border-purple-500/30 sticky top-0 z-[60] relative overflow-hidden backdrop-blur-sm">
+        {/* Animated background effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-orange-500/10 to-purple-600/10 animate-pulse"></div>
+        
+        {/* Flowing particles animation */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute w-2 h-2 bg-purple-400 rounded-full opacity-60 animate-ping" style={{ top: '20%', left: '10%', animationDelay: '0s', animationDuration: '3s' }}></div>
+          <div className="absolute w-1 h-1 bg-orange-400 rounded-full opacity-60 animate-ping" style={{ top: '60%', left: '25%', animationDelay: '1s', animationDuration: '4s' }}></div>
+          <div className="absolute w-1.5 h-1.5 bg-blue-400 rounded-full opacity-60 animate-ping" style={{ top: '40%', right: '15%', animationDelay: '2s', animationDuration: '3.5s' }}></div>
+          <div className="absolute w-1 h-1 bg-green-400 rounded-full opacity-60 animate-ping" style={{ top: '70%', right: '30%', animationDelay: '0.5s', animationDuration: '4.5s' }}></div>
         </div>
-      </div>
-    </div>
-  </header>
-);
+        
+        {/* Neon scanning line */}
+        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent opacity-80">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-300 to-transparent animate-pulse"></div>
+          <div className="absolute inset-0 w-32 h-full bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-75" 
+               style={{
+                 animation: 'scanline 4s linear infinite',
+               }}></div>
+        </div>
+        
+        {/* Hexagon pattern overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="w-full h-full" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M30 15l15 8.66v17.32L30 50 15 41.34V23.66L30 15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
+        
+        {/* CSS Animation Keyframes */}
+        <style>{`
+          @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(calc(100vw + 128px)); }
+          }
+          
+          @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(147, 51, 234, 0.5), 0 0 10px rgba(147, 51, 234, 0.3); }
+            50% { text-shadow: 0 0 10px rgba(147, 51, 234, 0.8), 0 0 20px rgba(147, 51, 234, 0.5), 0 0 30px rgba(147, 51, 234, 0.3); }
+          }
+          
+          @keyframes logoSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+          }
+          
+          .logo-glow:hover {
+            animation: logoSpin 2s ease-in-out;
+          }
+          
+          .logo-zoom {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+          }
+          
+          .logo-zoom:hover {
+            transform: scale(1.1);
+          }
+          
+          .logo-zoom:active {
+            transform: scale(0.95);
+          }
+          
+          .text-glow {
+            animation: glow 3s ease-in-out infinite;
+          }
+          
+          .nav-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+          }
+          
+          .nav-button:hover::before {
+            left: 100%;
+          }
+          
+          .nav-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+          }
+          
+          .export-button {
+            background: linear-gradient(45deg, #9333ea, #ea580c);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .export-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%) skewX(-15deg);
+            transition: transform 0.6s;
+          }
+          
+          .export-button:hover::after {
+            transform: translateX(100%) skewX(-15deg);
+          }
+          
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          
+          @keyframes logoZoomIn {
+            0% { transform: scale(0.5) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+          }
+          
+          @keyframes logoZoomOut {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(0.5) rotate(180deg); opacity: 0; }
+          }
+          
+          .zoom-modal-enter {
+            animation: logoZoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+          
+          .zoom-modal-exit {
+            animation: logoZoomOut 0.3s ease-in;
+          }
+        `}</style>
+        
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 relative z-10">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              {/* Cool spinning logo with zoom feature */}
+              <div className="relative logo-glow">
+                <div 
+                  className="logo-zoom w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 via-orange-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg overflow-hidden"
+                  onClick={() => setIsLogoZoomed(true)}
+                  title="Click to zoom logo"
+                >
+                  {/* Replace this img src with your actual logo path */}
+                  <img 
+                    src="/your-logo.png" 
+                    alt="CDL Roster Builder Logo" 
+                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                    onError={(e) => {
+                      // Fallback to "R" if image fails to load
+                      e.currentTarget.style.display = 'none';
+                      const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (fallback) fallback.style.display = 'block';
+                    }}
+                  />
+                  {/* Fallback "R" text (hidden by default) */}
+                  <span className="text-white font-black text-sm sm:text-lg tracking-wider hidden">R</span>
+                </div>
+                {/* Rotating ring around logo */}
+                <div className="absolute inset-0 w-8 h-8 sm:w-10 sm:h-10 border-2 border-orange-400/50 rounded-lg animate-spin pointer-events-none" style={{ animationDuration: '8s' }}></div>
+              </div>
+              
+              <div className="min-w-0 flex-1">
+                {/* Main title with glow effect */}
+                <div className="flex items-center gap-1">
+                  <span className="text-sm sm:text-xl font-black text-white block truncate tracking-wide">
+                    CDL<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400">ROSTER</span>BUILDER
+                  </span>
+                  <span className="text-purple-400 text-sm sm:text-xl font-black text-glow">.COM</span>
+                </div>
+                
+                {/* Subtitle with cool effect */}
+                <a 
+                  href="https://x.com/tr04r" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 text-xs hover:text-orange-400 transition-all duration-300 cursor-pointer underline hidden sm:inline-block transform hover:scale-105"
+                >
+                  <span className="opacity-60">crafted by</span> <span className="font-semibold">@TROAR</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 sm:gap-3">
+              {/* Rankings button */}
+              <button 
+                onClick={onShowRankings} 
+                className="nav-button flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-purple-400 transition-colors p-2 sm:p-2 rounded-lg border border-transparent hover:border-purple-500/30"
+              >
+                <TrendingUp className="w-4 h-4" />
+                <span className="hidden md:inline text-sm font-medium">Rankings</span>
+              </button>
+              
+              {/* Free Agents button */}
+              <button 
+                onClick={onShowFreeAgents} 
+                className="nav-button flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-blue-400 transition-colors p-2 sm:p-2 rounded-lg border border-transparent hover:border-blue-500/30"
+              >
+                <Users className="w-4 h-4" />
+                <span className="hidden md:inline text-sm font-medium">Free Agents</span>
+              </button>
+              
+              {/* Export button with animated gradient */}
+              <button 
+                onClick={onExportRosters} 
+                className="export-button flex items-center gap-1 sm:gap-2 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden md:inline text-sm">Export</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Logo Zoom Modal */}
+      {isLogoZoomed && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+          onClick={() => setIsLogoZoomed(false)}
+        >
+          <div className="relative zoom-modal-enter">
+            {/* Zoomed logo container */}
+            <div className="w-64 h-64 sm:w-80 sm:h-80 bg-gradient-to-br from-purple-500 via-orange-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden relative">
+              {/* Animated rings around zoomed logo */}
+              <div className="absolute inset-0 border-4 border-orange-400/30 rounded-3xl animate-ping" style={{ animationDuration: '2s' }}></div>
+              <div className="absolute inset-4 border-2 border-purple-400/50 rounded-2xl animate-spin" style={{ animationDuration: '8s' }}></div>
+              <div className="absolute inset-8 border-2 border-orange-300/40 rounded-xl animate-spin" style={{ animationDuration: '6s', animationDirection: 'reverse' }}></div>
+              
+              {/* Large logo */}
+              <img 
+                src="/your-logo.png" 
+                alt="CDL Roster Builder Logo - Zoomed" 
+                className="w-48 h-48 sm:w-60 sm:h-60 object-contain z-10"
+                onError={(e) => {
+                  // Fallback to large "R" if image fails to load
+                  e.currentTarget.style.display = 'none';
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+              {/* Fallback large "R" text */}
+              <div className="hidden w-48 h-48 sm:w-60 sm:h-60 items-center justify-center z-10">
+                <span className="text-white font-black text-8xl sm:text-9xl tracking-wider">R</span>
+              </div>
+              
+              {/* Glow effects */}
+              <div className="absolute inset-0 bg-gradient-to-t from-purple-600/20 to-transparent rounded-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent rounded-3xl"></div>
+            </div>
+            
+            {/* Close button */}
+            <button
+              onClick={() => setIsLogoZoomed(false)}
+              className="absolute -top-4 -right-4 w-12 h-12 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110 shadow-lg border-2 border-gray-600"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            {/* Click anywhere to close hint */}
+            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm">
+              Click anywhere to close
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 // Rankings Modal
 const RankingsModal = ({ 
@@ -196,20 +423,20 @@ const RankingsModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-gray-800 rounded-lg border border-gray-700 w-full max-w-4xl max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="p-6 border-b border-gray-700 bg-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4" onClick={onClose}>
+      <div className="bg-gray-800 rounded-lg border border-gray-700 w-full max-w-4xl max-h-[90vh] sm:max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="p-4 sm:p-6 border-b border-gray-700 bg-gray-900">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-              <TrendingUp className="w-6 h-6 text-purple-500" />
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
+              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" />
               Team Rankings
             </h2>
             <button onClick={onClose} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-              <X className="w-6 h-6 text-gray-400" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" />
             </button>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             <button
               onClick={handleReset}
               className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
@@ -225,14 +452,14 @@ const RankingsModal = ({
           </div>
         </div>
         
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[60vh]">
           <div className="space-y-3">
             {sortedTeams.map((team) => (
               <div
                 key={team.id}
-                className="bg-gray-700 border border-gray-600 rounded-lg p-4 hover:bg-gray-650 transition-all duration-200"
+                className="bg-gray-700 border border-gray-600 rounded-lg p-3 sm:p-4 hover:bg-gray-650 transition-all duration-200"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
                   {/* Ranking Input */}
                   <div className="flex items-center gap-2">
                     <span className="text-gray-400 text-sm">#</span>
@@ -242,13 +469,13 @@ const RankingsModal = ({
                       max={teams.length}
                       value={editableRankings[team.id] || 1}
                       onChange={(e) => handleRankingChange(team.id, parseInt(e.target.value) || 1)}
-                      className="w-16 px-2 py-1 bg-gray-600 border border-gray-500 rounded text-white text-center focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-12 sm:w-16 px-2 py-1 bg-gray-600 border border-gray-500 rounded text-white text-center focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     />
                   </div>
                   
                   {/* Team Logo */}
                   <div 
-                    className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center flex-shrink-0"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center flex-shrink-0"
                     style={{ 
                       backgroundImage: team.logo ? `url(${team.logo})` : 'none'
                     }}
@@ -257,9 +484,9 @@ const RankingsModal = ({
                   </div>
                   
                   {/* Team Info */}
-                  <div className="flex-1">
-                    <h3 className="font-bold text-white text-lg">{team.name}</h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-white text-sm sm:text-lg truncate">{team.name}</h3>
+                    <div className="flex items-center gap-2 sm:gap-4 mt-1 text-xs sm:text-sm">
                       <span className="text-gray-400">
                         {team.players.filter(p => p !== null).length}/4 Players
                       </span>
@@ -274,7 +501,7 @@ const RankingsModal = ({
                     {team.players.slice(0, 4).map((player, index) => (
                       <div
                         key={index}
-                        className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs font-medium relative overflow-hidden"
+                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs font-medium relative overflow-hidden"
                       >
                         {player ? (
                           <>
@@ -357,20 +584,20 @@ const FreeAgentsModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-gray-800 rounded-lg border border-gray-700 w-full max-w-4xl max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="p-6 border-b border-gray-700 bg-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4" onClick={onClose}>
+      <div className="bg-gray-800 rounded-lg border border-gray-700 w-full max-w-4xl max-h-[90vh] sm:max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="p-4 sm:p-6 border-b border-gray-700 bg-gray-900">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-              <Users className="w-6 h-6 text-purple-500" />
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
+              <Users className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" />
               Free Agents ({filteredPlayers.length})
             </h2>
             <button onClick={onClose} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-              <X className="w-6 h-6 text-gray-400" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" />
             </button>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -403,8 +630,8 @@ const FreeAgentsModal = ({
           </div>
         </div>
         
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[60vh]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredPlayers.map((player) => (
               <div key={player.id} className="bg-gray-700 border border-gray-600 rounded-lg p-4 hover:bg-gray-650 hover:border-orange-500 transition-all duration-200">
                 <div className="flex items-start gap-3 mb-3">
@@ -502,7 +729,7 @@ const FreeAgentsModal = ({
   );
 };
 
-// Team Card Component
+// Team Card Component - Mobile optimized
 const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExportTeam, statRankings }: {
   team: { id: string; name: string; logo: string; brandColor: string; rating: number; players: (Player | null)[]; stats: any };
   onPlayerSelect: (teamId: string, slotIndex: number) => void;
@@ -528,22 +755,22 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
       }}
     >
       <div 
-        className="p-4 border-b border-gray-800 relative"
+        className="p-3 sm:p-4 border-b border-gray-800 relative"
         style={{ 
           background: `linear-gradient(135deg, ${team.brandColor}15 0%, ${team.brandColor}05 100%)`
         }}
       >
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between mb-2 sm:mb-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
             <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center"
+              className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center flex-shrink-0"
               style={{ 
                 backgroundImage: team.logo ? `url(${team.logo})` : 'none'
               }}
             >
             </div>
-            <div>
-              <h3 className="font-bold text-lg text-white">{team.name}</h3>
+            <div className="min-w-0 flex-1">
+              <h3 className="font-bold text-sm sm:text-lg text-white truncate">{team.name}</h3>
               <p className="text-xs text-gray-400">{team.players.filter(p => p !== null).length}/4 Players</p>
             </div>
           </div>
@@ -553,10 +780,10 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
               className="p-2 hover:bg-gray-700 rounded-lg transition-colors group"
               title="Export this roster"
             >
-              <Camera className="w-4 h-4 text-gray-400 group-hover:text-orange-500" />
+              <Camera className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-orange-500" />
             </button>
             <div className="text-right">
-              <div className="text-xl font-bold" style={{ color: team.brandColor }}>
+              <div className="text-lg sm:text-xl font-bold" style={{ color: team.brandColor }}>
                 {team.rating > 0 ? Math.round(team.rating) : '--'}
               </div>
               <div className="text-xs text-gray-400">RATING</div>
@@ -565,8 +792,9 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
         </div>
       </div>
 
-      <div className="p-4">
-        <div className="grid grid-cols-4 gap-2 mb-4">
+      <div className="p-3 sm:p-4">
+        {/* Mobile responsive player grid - 2x2 on mobile, 1x4 on desktop */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
           {team.players.map((player, index) => {
             const playerRating = player ? playerRatings.get(player.id) || player.slayer_rating : 0;
             
@@ -583,13 +811,13 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
                         e.stopPropagation();
                         onPlayerRemove(team.id, index);
                       }}
-                      className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-40 hover:bg-red-600"
+                      className="absolute top-1 right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-40 hover:bg-red-600"
                     >
-                      <X className="w-3 h-3 text-white" />
+                      <X className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
                     </button>
                     
                     <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-600 z-10" id={`fallback-${player.id}-team-${index}`}>
-                      <span className="text-4xl font-bold text-gray-300">{player.player_name.charAt(0)}</span>
+                      <span className="text-2xl sm:text-4xl font-bold text-gray-300">{player.player_name.charAt(0)}</span>
                     </div>
                     
                     <img
@@ -605,18 +833,18 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
                       }}
                     />
                     
-                    <div className="absolute top-1 left-1 bg-purple-500 text-white px-1.5 py-0.5 rounded text-xs font-bold z-40">
+                    <div className="absolute top-1 left-1 bg-purple-500 text-white px-1 py-0.5 sm:px-1.5 sm:py-0.5 rounded text-xs font-bold z-40">
                       {Math.round(playerRating)}
                     </div>
                     
                     {/* Player name at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 z-50">
-                      <div className="text-white text-xs font-medium text-center">{player.player_name}</div>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-1 sm:p-2 z-50">
+                      <div className="text-white text-xs font-medium text-center truncate">{player.player_name}</div>
                     </div>
                   </>
                 ) : (
                   <>
-                    <Plus className="w-5 h-5 text-gray-500 mb-1 group-hover:text-purple-500 transition-colors" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mb-1 group-hover:text-purple-500 transition-colors" />
                     <span className="text-gray-500 text-xs font-medium group-hover:text-purple-500 transition-colors">
                       TBD
                     </span>
@@ -627,47 +855,47 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
           })}
         </div>
 
-        <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
+        <div className="bg-gray-900 rounded-lg p-2 sm:p-3 border border-gray-800">
           <h4 className="text-xs font-semibold text-gray-300 mb-2 flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             Team Statistics
           </h4>
-          <div className="grid grid-cols-3 gap-2 text-xs">
+          <div className="grid grid-cols-3 gap-1 sm:gap-2 text-xs">
             <div className="text-center">
               <div className={`font-medium ${getRankColor('hp_k10m', team.id)}`}>{team.stats.hp_k10m.toFixed(1)}</div>
-              <div className="text-gray-500">HP K/10M</div>
+              <div className="text-gray-500 text-xs">HP K/10M</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('hp_dmg10m', team.id)}`}>{Math.round(team.stats.hp_dmg10m)}</div>
-              <div className="text-gray-500">HP DMG</div>
+              <div className="text-gray-500 text-xs">HP DMG</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('hp_obj10m', team.id)}`}>{team.stats.hp_obj10m.toFixed(1)}</div>
-              <div className="text-gray-500">HP OBJ</div>
+              <div className="text-gray-500 text-xs">HP OBJ</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('snd_kpr', team.id)}`}>{team.stats.snd_kpr.toFixed(2)}</div>
-              <div className="text-gray-500">SND KPR</div>
+              <div className="text-gray-500 text-xs">SND KPR</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('first_bloods', team.id)}`}>{Math.round(team.stats.first_bloods)}</div>
-              <div className="text-gray-500">FB</div>
+              <div className="text-gray-500 text-xs">FB</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('plants_defuses_per_snd_map', team.id)}`}>{team.stats.plants_defuses_per_snd_map.toFixed(1)}</div>
-              <div className="text-gray-500">P+D/SND</div>
+              <div className="text-gray-500 text-xs">P+D/SND</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('ctl_k10m', team.id)}`}>{team.stats.ctl_k10m.toFixed(1)}</div>
-              <div className="text-gray-500">CTL K/10M</div>
+              <div className="text-gray-500 text-xs">CTL K/10M</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('ctl_dmg10m', team.id)}`}>{Math.round(team.stats.ctl_dmg10m)}</div>
-              <div className="text-gray-500">CTL DMG</div>
+              <div className="text-gray-500 text-xs">CTL DMG</div>
             </div>
             <div className="text-center">
               <div className={`font-medium ${getRankColor('zone_captures_per_ctl_map', team.id)}`}>{team.stats.zone_captures_per_ctl_map.toFixed(1)}</div>
-              <div className="text-gray-500">Zones/CTL</div>
+              <div className="text-gray-500 text-xs">Zones/CTL</div>
             </div>
           </div>
         </div>
@@ -676,14 +904,14 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
   );
 };
 
-// Sliding Player Panel
+// Sliding Player Panel - Mobile optimized
 const PlayerSelectionPanel = ({ 
   isOpen, 
   onClose, 
   onPlayerSelect, 
   availablePlayers,
-  //selectedTeam,
-  //selectedSlot,
+  selectedTeam,
+  selectedSlot,
   playerRatings
 }: {
   isOpen: boolean;
@@ -697,6 +925,31 @@ const PlayerSelectionPanel = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<'AR' | 'SMG' | ''>('');
   const [sortBy, setSortBy] = useState<'rating' | 'name'>('rating');
+
+  // Reset search state when panel closes OR when a player is selected
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm('');
+      setRoleFilter('');
+      setSortBy('rating');
+    }
+  }, [isOpen]);
+
+  const handlePlayerSelect = (player: Player) => {
+    // Reset search state immediately when player is selected
+    setSearchTerm('');
+    setRoleFilter('');
+    setSortBy('rating');
+    // Then call the parent handler
+    onPlayerSelect(player);
+  };
+
+  const handleClose = () => {
+    setSearchTerm('');
+    setRoleFilter('');
+    setSortBy('rating');
+    onClose();
+  };
 
   const filteredPlayers = useMemo(() => {
     let filtered = availablePlayers.filter(player => {
@@ -721,28 +974,18 @@ const PlayerSelectionPanel = ({
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300" onClick={() => {
-          setSearchTerm('');
-          setRoleFilter('');
-          setSortBy('rating');
-          onClose();
-        }} />
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300" onClick={handleClose} />
       )}
       
-      <div className={`fixed left-0 top-0 h-full w-96 bg-gray-800 border-r border-gray-700 z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed left-0 top-0 h-full w-full sm:w-96 bg-gray-800 border-r border-gray-700 z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full">
-          <div className="p-4 border-b border-gray-700 bg-gray-900 mt-16">
+          <div className="p-4 border-b border-gray-700 bg-gray-900 mt-14 sm:mt-16">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Search className="w-5 h-5" />
                 Select Player
               </h2>
-              <button onClick={() => {
-                setSearchTerm('');
-                setRoleFilter('');
-                setSortBy('rating');
-                onClose();
-              }} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+              <button onClick={handleClose} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
@@ -755,7 +998,7 @@ const PlayerSelectionPanel = ({
                   placeholder="Search players..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
               
@@ -763,7 +1006,7 @@ const PlayerSelectionPanel = ({
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value as 'AR' | 'SMG' | '')}
-                  className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-orange-500"
+                  className="px-3 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-orange-500"
                 >
                   <option value="">All Roles</option>
                   <option value="AR">AR</option>
@@ -773,7 +1016,7 @@ const PlayerSelectionPanel = ({
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'rating' | 'name')}
-                  className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-orange-500"
+                  className="px-3 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-orange-500"
                 >
                   <option value="rating">By Rating</option>
                   <option value="name">By Name</option>
@@ -783,17 +1026,17 @@ const PlayerSelectionPanel = ({
           </div>
           
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-2">
+            <div className="space-y-3">
               {filteredPlayers.map((player) => (
                 <div
                   key={player.id}
-                  onClick={() => onPlayerSelect(player)}
-                  className="bg-gray-700 border border-gray-600 rounded-lg p-3 cursor-pointer hover:bg-gray-650 hover:border-orange-500 transition-all duration-200"
+                  onClick={() => handlePlayerSelect(player)}
+                  className="bg-gray-700 border border-gray-600 rounded-lg p-4 cursor-pointer hover:bg-gray-650 hover:border-orange-500 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-cover bg-center relative overflow-hidden">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-cover bg-center relative overflow-hidden">
                       <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-600 rounded-full z-10" id={`fallback-${player.id}-panel`}>
-                        <span className="text-sm font-medium text-gray-300">{player.player_name.charAt(0)}</span>
+                        <span className="text-lg font-medium text-gray-300">{player.player_name.charAt(0)}</span>
                       </div>
                       <img
                         src={player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}
@@ -808,15 +1051,15 @@ const PlayerSelectionPanel = ({
                         }}
                       />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white">{player.player_name}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-white truncate">{player.player_name}</h3>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-orange-400 font-bold text-sm">
+                        <span className="text-orange-400 font-bold text-lg">
                           {Math.round(playerRatings.get(player.id) || player.slayer_rating)}
                         </span>
                       </div>
                     </div>
-                    <ChevronLeft className="w-4 h-4 text-gray-500" />
+                    <ChevronLeft className="w-5 h-5 text-gray-500 flex-shrink-0" />
                   </div>
                 </div>
               ))}
@@ -1065,6 +1308,8 @@ export default function App() {
         })
       );
     }
+    
+    // Close panel and reset all state immediately
     setIsPlayerPanelOpen(false);
     setSelectedTeam(null);
     setSelectedSlot(null);
@@ -1250,7 +1495,7 @@ export default function App() {
   if (loadError) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center max-w-md">
+        <div className="text-center max-w-md px-4">
           <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <X className="w-8 h-8 text-white" />
           </div>
@@ -1296,61 +1541,60 @@ export default function App() {
         onShowRankings={() => setIsRankingsOpen(true)}
       />
       
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-6 bg-black/60 backdrop-blur-sm border border-gray-700/50 rounded-lg p-4 shadow-2xl">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-400">{allPlayers.length}</div>
-                <div className="text-xs text-gray-400">Unique Players</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-400">{totalRosteredPlayers}/48</div>
-                <div className="text-xs text-gray-400">Roster Spots Filled</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-400">{averageTeamRating > 0 ? Math.round(averageTeamRating) : '--'}</div>
-                <div className="text-xs text-gray-400">Avg Team Rating</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-400">{topTeam?.rating > 0 ? topTeam.name.split(' ')[0] : 'TBD'}</div>
-                <div className="text-xs text-gray-400">Top Team</div>
-              </div>
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
+        <div className="mb-4 sm:mb-6 bg-black/60 backdrop-blur-sm border border-gray-700/50 rounded-lg p-3 sm:p-4 shadow-2xl">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-8">
+            <div className="text-center">
+              <div className="text-lg sm:text-2xl font-bold text-orange-400">{allPlayers.length}</div>
+              <div className="text-xs text-gray-400">Unique Players</div>
             </div>
-            <div className="text-right">
-              {ratingSystem && (
-                <button 
-                  onClick={() => {
-                    const rankings = ratingSystem.getPlayerRankings();
-                    console.log('🔍 Dual-Pool System Debug:', rankings);
-                    
-                    // Show some example player breakdowns
-                    const allCombinedPlayers = ratingSystem.getAllPlayers();
-                    const exampleCDL = allCombinedPlayers.find(p => p.pool === 'CDL');
-                    const exampleChallengers = allCombinedPlayers.find(p => p.pool === 'Challengers');
-                    
-                    if (exampleCDL) {
-                      console.log('📊 Example CDL player breakdown:', ratingSystem.getPlayerBreakdown(exampleCDL));
-                    }
-                    if (exampleChallengers) {
-                      console.log('📊 Example Challengers player breakdown:', ratingSystem.getPlayerBreakdown(exampleChallengers));
-                    }
-                  }}
-                  className="text-xs text-orange-400 hover:text-orange-300 underline mt-1"
-                >
-                  Debug Dual-Pool System
-                </button>
-              )}
+            <div className="text-center">
+              <div className="text-lg sm:text-2xl font-bold text-blue-400">{totalRosteredPlayers}/48</div>
+              <div className="text-xs text-gray-400">Roster Spots</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg sm:text-2xl font-bold text-green-400">{averageTeamRating > 0 ? Math.round(averageTeamRating) : '--'}</div>
+              <div className="text-xs text-gray-400">Avg Rating</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg sm:text-2xl font-bold text-purple-400">{topTeam?.rating > 0 ? topTeam.name.split(' ')[0] : 'TBD'}</div>
+              <div className="text-xs text-gray-400">Top Team</div>
             </div>
           </div>
+          {ratingSystem && (
+            <div className="mt-2 text-right">
+              <button 
+                onClick={() => {
+                  const rankings = ratingSystem.getPlayerRankings();
+                  console.log('🔍 Dual-Pool System Debug:', rankings);
+                  
+                  // Show some example player breakdowns
+                  const allCombinedPlayers = ratingSystem.getAllPlayers();
+                  const exampleCDL = allCombinedPlayers.find(p => p.pool === 'CDL');
+                  const exampleChallengers = allCombinedPlayers.find(p => p.pool === 'Challengers');
+                  
+                  if (exampleCDL) {
+                    console.log('📊 Example CDL player breakdown:', ratingSystem.getPlayerBreakdown(exampleCDL));
+                  }
+                  if (exampleChallengers) {
+                    console.log('📊 Example Challengers player breakdown:', ratingSystem.getPlayerBreakdown(exampleChallengers));
+                  }
+                }}
+                className="text-xs text-orange-400 hover:text-orange-300 underline"
+              >
+                Debug Dual-Pool System
+              </button>
+            </div>
+          )}
         </div>
 
-        <div ref={rostersRef} className="grid grid-cols-2 gap-6">
+        {/* Mobile responsive grid - single column on mobile, 2 columns on large screens */}
+        <div ref={rostersRef} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
           {displayTeams.map((team, index) => (
             <div key={team.id} className="relative">
               {/* Ranking Badge - only show if custom rankings exist */}
               {Object.keys(customRankings).length > 0 && (
-                <div className="absolute -top-2 -left-2 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm z-10 shadow-lg">
+                <div className="absolute -top-2 -left-2 w-7 h-7 sm:w-8 sm:h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm z-10 shadow-lg">
                   {customRankings[team.id] || (index + 1)}
                 </div>
               )}

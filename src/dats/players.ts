@@ -21,4 +21,4 @@ export interface Player {
 }
 
 // This will be populated by loading the CSV file
-export let PLAYERS_DATA: Player[] = [];
+export let PLAYERS_DATA: Player[] = []; 

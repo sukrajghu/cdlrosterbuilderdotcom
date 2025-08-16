@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Search, X, Plus, ChevronLeft, TrendingUp, Users, Download, Camera } from "lucide-react";
 import { Player } from './dats/players';
-import { EnhancedBreakingPointRatingSystem } from './utils/ratingSystem';
+import { EnhancedRatingSystem } from './utils/ratingSystem';
 import Papa from 'papaparse';
 import html2canvas from 'html2canvas';
 import { Analytics } from "@vercel/analytics/react"
@@ -19,7 +19,7 @@ interface Team {
     hp_dmg10m: number;
     hp_obj10m: number;
     snd_kpr: number;
-    first_bloods: number;
+    first_bloods_per_snd_map: number;
     plants_defuses_per_snd_map: number;
     ctl_k10m: number;
     ctl_dmg10m: number;
@@ -681,7 +681,13 @@ const FreeAgentsModal = ({
                     <div className="text-gray-500">SND KPR</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-red-400 font-medium">{player.first_bloods ? Math.round(player.first_bloods) : '--'}</div>
+                  <div className="text-red-400 font-medium"> 
+                    {(() => { 
+                      const sndMaps = (player as any).snd_maps || ((player as any).total_maps ? Math.round(((player as any).total_maps * 0.33)) : 10); 
+                      const fbPerSnd = sndMaps > 0 ? (player.first_bloods || 0) / sndMaps : 0; 
+                      return fbPerSnd.toFixed(2);
+                    })()} 
+                  </div>
                     <div className="text-gray-500">FB</div>
                   </div>
                   <div className="text-center">
@@ -689,7 +695,7 @@ const FreeAgentsModal = ({
                       {(() => {
                         const sndMaps = (player as any).snd_maps || ((player as any).total_maps ? Math.round(((player as any).total_maps * 0.33)) : 10);
                         const plantsDefusesPerMap = sndMaps > 0 ? (player.plants_defuses_combined || 0) / sndMaps : 0;
-                        return plantsDefusesPerMap.toFixed(1);
+                        return plantsDefusesPerMap.toFixed(2);
                       })()}
                     </div>
                     <div className="text-gray-500">P+D/SND</div>
@@ -707,7 +713,7 @@ const FreeAgentsModal = ({
                       {(() => {
                         const ctlMaps = (player as any).ctl_maps || ((player as any).total_maps ? Math.round(((player as any).total_maps * 0.33)) : 10);
                         const zonesCapturesPerMap = ctlMaps > 0 ? (player.zone_captures || 0) / ctlMaps : 0;
-                        return zonesCapturesPerMap.toFixed(1);
+                        return zonesCapturesPerMap.toFixed(2);
                       })()}
                     </div>
                     <div className="text-gray-500">Zones/CTL</div>
@@ -879,11 +885,11 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
               <div className="text-gray-500 text-xs">SND KPR</div>
             </div>
             <div className="text-center">
-              <div className={`font-medium ${getRankColor('first_bloods', team.id)}`}>{Math.round(team.stats.first_bloods)}</div>
-              <div className="text-gray-500 text-xs">FB</div>
+              <div className={`font-medium ${getRankColor('first_bloods_per_snd_map', team.id)}`}>{team.stats.first_bloods_per_snd_map.toFixed(2)}</div>
+              <div className="text-gray-500 text-xs">FB/SND</div>
             </div>
             <div className="text-center">
-              <div className={`font-medium ${getRankColor('plants_defuses_per_snd_map', team.id)}`}>{team.stats.plants_defuses_per_snd_map.toFixed(1)}</div>
+              <div className={`font-medium ${getRankColor('plants_defuses_per_snd_map', team.id)}`}>{team.stats.plants_defuses_per_snd_map.toFixed(2)}</div>
               <div className="text-gray-500 text-xs">P+D/SND</div>
             </div>
             <div className="text-center">
@@ -895,7 +901,7 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
               <div className="text-gray-500 text-xs">CTL DMG</div>
             </div>
             <div className="text-center">
-              <div className={`font-medium ${getRankColor('zone_captures_per_ctl_map', team.id)}`}>{team.stats.zone_captures_per_ctl_map.toFixed(1)}</div>
+              <div className={`font-medium ${getRankColor('zone_captures_per_ctl_map', team.id)}`}>{team.stats.zone_captures_per_ctl_map.toFixed(2)}</div>
               <div className="text-gray-500 text-xs">Zones/CTL</div>
             </div>
           </div>
@@ -1085,7 +1091,7 @@ export default function App() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [playerRatings, setPlayerRatings] = useState<Map<string, number>>(new Map());
-  const [ratingSystem, setRatingSystem] = useState<EnhancedBreakingPointRatingSystem | null>(null);
+  const [ratingSystem, setRatingSystem] = useState<EnhancedRatingSystem | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
   const [isPlayerPanelOpen, setIsPlayerPanelOpen] = useState(false);
@@ -1101,9 +1107,9 @@ export default function App() {
       setIsLoading(true);
       setLoadError(null);
       
-      const cdlResponse = await fetch('/breaking_point_roles_corrected.csv');
+      const cdlResponse = await fetch('/cdl_roles_corrected.csv');
       if (!cdlResponse.ok) {
-        throw new Error('Could not load CDL CSV file. Make sure breaking_point_roles_corrected.csv is in the public folder.');
+        throw new Error('Could not load CDL CSV file. Make sure cdl_roles_corrected.csv is in the public folder.');
       }
       const cdlCsvText = await cdlResponse.text();
       
@@ -1196,7 +1202,7 @@ export default function App() {
                   });
                 
                 // Create enhanced rating system with both CDL and Challengers data
-                const ratingSystemInstance = new EnhancedBreakingPointRatingSystem(cdlPlayers, challengersPlayers);
+                const ratingSystemInstance = new EnhancedRatingSystem(cdlPlayers, challengersPlayers);
                 setRatingSystem(ratingSystemInstance);
                 
                 // Get merged players in original format for UI compatibility
@@ -1224,7 +1230,7 @@ export default function App() {
                 
                 setPlayerRatings(finalRatings);
                 
-                console.log(`✅ Dual-Pool System Loaded:`);
+                console.log(` Dual-Pool System Loaded:`);
                 console.log(`   Total unique players: ${mergedPlayers.length}`);
                 console.log(`   Original CDL: ${cdlPlayers.length}, Challengers: ${challengersPlayers.length}`);
                 
@@ -1265,7 +1271,7 @@ export default function App() {
       players: [null, null, null, null] as (Player | null)[],
       stats: {
         hp_k10m: 0, hp_dmg10m: 0, hp_obj10m: 0,
-        snd_kpr: 0, first_bloods: 0, plants_defuses_per_snd_map: 0,
+        snd_kpr: 0, first_bloods_per_snd_map: 0, plants_defuses_per_snd_map: 0,
         ctl_k10m: 0, ctl_dmg10m: 0, zone_captures_per_ctl_map: 0
       }
     }));
@@ -1372,7 +1378,7 @@ export default function App() {
     if (validPlayers.length === 0) {
       return {
         hp_k10m: 0, hp_dmg10m: 0, hp_obj10m: 0,
-        snd_kpr: 0, first_bloods: 0, plants_defuses_per_snd_map: 0,
+        snd_kpr: 0, first_bloods_per_snd_map: 0, plants_defuses_per_snd_map: 0,
         ctl_k10m: 0, ctl_dmg10m: 0, zone_captures_per_ctl_map: 0
       };
     }
@@ -1385,18 +1391,19 @@ export default function App() {
       
       return {
         ...player,
+        first_bloods_per_snd_map: sndMaps > 0 ? (player.first_bloods || 0) / sndMaps : 0,
         plants_defuses_per_snd_map: sndMaps > 0 ? (player.plants_defuses_combined || 0) / sndMaps : 0,
         zone_captures_per_ctl_map: ctlMaps > 0 ? (player.zone_captures || 0) / ctlMaps : 0
       };
     });
+    
 
     return {
       hp_k10m: playersWithDerived.reduce((sum, p) => sum + (p.hp_k10m || 0), 0) / count,
       hp_dmg10m: playersWithDerived.reduce((sum, p) => sum + (p.hp_dmg10m || 0), 0) / count,
       hp_obj10m: playersWithDerived.reduce((sum, p) => sum + (p.hp_obj10m || 0), 0) / count,
       snd_kpr: playersWithDerived.reduce((sum, p) => sum + (p.snd_kpr || 0), 0) / count,
-      first_bloods: playersWithDerived.reduce((sum, p) => sum + (p.first_bloods || 0), 0) / count,
-      plants_defuses_per_snd_map: playersWithDerived.reduce((sum, p) => sum + p.plants_defuses_per_snd_map, 0) / count,
+      first_bloods_per_snd_map: playersWithDerived.reduce((sum, p) => sum + (p.first_bloods_per_snd_map || 0), 0) / count,      plants_defuses_per_snd_map: playersWithDerived.reduce((sum, p) => sum + p.plants_defuses_per_snd_map, 0) / count,
       ctl_k10m: playersWithDerived.reduce((sum, p) => sum + (p.ctl_k10m || 0), 0) / count,
       ctl_dmg10m: playersWithDerived.reduce((sum, p) => sum + (p.ctl_dmg10m || 0), 0) / count,
       zone_captures_per_ctl_map: playersWithDerived.reduce((sum, p) => sum + p.zone_captures_per_ctl_map, 0) / count
@@ -1420,7 +1427,7 @@ export default function App() {
     
     const statNames = [
       'hp_k10m', 'hp_dmg10m', 'hp_obj10m',
-      'snd_kpr', 'first_bloods', 'plants_defuses_per_snd_map',
+      'snd_kpr', 'first_bloods_per_snd_map', 'plants_defuses_per_snd_map',
       'ctl_k10m', 'ctl_dmg10m', 'zone_captures_per_ctl_map'
     ];
 
@@ -1505,7 +1512,7 @@ export default function App() {
           <div className="text-sm text-gray-500 text-left bg-gray-800 p-4 rounded-lg">
             <p className="font-semibold mb-2">Setup Instructions:</p>
             <ol className="list-decimal list-inside space-y-1">
-              <li>Place <code>breaking_point_roles_corrected.csv</code> in the <code>public/</code> folder</li>
+              <li>Place <code>cdl_roles_corrected.csv</code> in the <code>public/</code> folder</li>
               <li>Place <code>challengers_roles_final.csv</code> in the <code>public/</code> folder</li>
               <li>Make sure the CSVs have the required columns</li>
               <li>Refresh the page</li>
@@ -1567,7 +1574,7 @@ export default function App() {
               <button 
                 onClick={() => {
                   const rankings = ratingSystem.getPlayerRankings();
-                  console.log('🔍 Dual-Pool System Debug:', rankings);
+                  console.log(' Dual-Pool System Debug:', rankings);
                   
                   // Show some example player breakdowns
                   const allCombinedPlayers = ratingSystem.getAllPlayers();
@@ -1575,10 +1582,10 @@ export default function App() {
                   const exampleChallengers = allCombinedPlayers.find(p => p.pool === 'Challengers');
                   
                   if (exampleCDL) {
-                    console.log('📊 Example CDL player breakdown:', ratingSystem.getPlayerBreakdown(exampleCDL));
+                    console.log(' Example CDL player breakdown:', ratingSystem.getPlayerBreakdown(exampleCDL));
                   }
                   if (exampleChallengers) {
-                    console.log('📊 Example Challengers player breakdown:', ratingSystem.getPlayerBreakdown(exampleChallengers));
+                    console.log(' Example Challengers player breakdown:', ratingSystem.getPlayerBreakdown(exampleChallengers));
                   }
                 }}
                 className="text-xs text-orange-400 hover:text-orange-300 underline"

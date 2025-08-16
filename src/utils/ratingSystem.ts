@@ -28,7 +28,7 @@ interface CombinedPlayer extends Player {
     hp_dmg10m: number;
     hp_obj10m: number;
     snd_kpr: number;
-    first_bloods: number;
+    first_bloods_per_snd_map: number;  // Changed from first_bloods to normalize by SND maps played
     plants_defuses_per_snd_map: number;
     ctl_k10m: number;
     ctl_dmg10m: number;
@@ -36,7 +36,7 @@ interface CombinedPlayer extends Player {
   };
 }
 
-export class EnhancedBreakingPointRatingSystem {
+export class EnhancedRatingSystem {
   private allPlayers: CombinedPlayer[] = [];
   private cdlPoolARs: CombinedPlayer[] = [];
   private cdlPoolSMGs: CombinedPlayer[] = [];
@@ -76,7 +76,7 @@ export class EnhancedBreakingPointRatingSystem {
           hp_dmg10m: player.hp_dmg10m || 0,
           hp_obj10m: player.hp_obj10m || 0,
           snd_kpr: player.snd_kpr || 0,
-          first_bloods: player.first_bloods || 0,
+          first_bloods_per_snd_map: sndMaps > 0 ? (player.first_bloods || 0) / sndMaps : 0,
           plants_defuses_per_snd_map: sndMaps > 0 ? (player.plants_defuses_combined || 0) / sndMaps : 0,
           ctl_k10m: player.ctl_k10m || 0,
           ctl_dmg10m: player.ctl_dmg10m || 0,
@@ -101,7 +101,7 @@ export class EnhancedBreakingPointRatingSystem {
         hp_dmg10m: challengersPlayer.hp_dmg10m || 0,
         hp_obj10m: challengersPlayer.hp_obj10m || 0,
         snd_kpr: challengersPlayer.snd_kpr || 0,
-        first_bloods: challengersPlayer.first_bloods || 0,
+        first_bloods_per_snd_map: sndMaps > 0 ? (challengersPlayer.first_bloods || 0) / sndMaps : 0,
         plants_defuses_per_snd_map: sndMaps > 0 ? (challengersPlayer.plants_defuses_combined || 0) / sndMaps : 0,
         ctl_k10m: challengersPlayer.ctl_k10m || 0,
         ctl_dmg10m: challengersPlayer.ctl_dmg10m || 0,
@@ -364,7 +364,7 @@ export class EnhancedBreakingPointRatingSystem {
     // Search & Destroy stats
     const snd = [
       this.calculateStatRating(player, 'snd_kpr'),
-      this.calculateStatRating(player, 'first_bloods'),
+      this.calculateStatRating(player, 'first_bloods_per_snd_map'),  // Updated stat name
       this.calculateStatRating(player, 'plants_defuses_per_snd_map')
     ];
 
@@ -454,7 +454,7 @@ export class EnhancedBreakingPointRatingSystem {
         hp_obj10m: combinedPlayer.combined_stats.hp_obj10m,
         hp_eng10m: combinedPlayer.hp_eng10m,
         snd_kpr: combinedPlayer.combined_stats.snd_kpr,
-        first_bloods: combinedPlayer.combined_stats.first_bloods,
+        first_bloods: combinedPlayer.first_bloods, // Keep original for compatibility
         opd_win_pct_decimal: combinedPlayer.opd_win_pct_decimal,
         plants_defuses_combined: combinedPlayer.plants_defuses_combined,
         ctl_k10m: combinedPlayer.combined_stats.ctl_k10m,

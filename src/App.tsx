@@ -1541,7 +1541,7 @@ const generateEnhancedTeamExport = async (teamId: string) => {
 
     <!-- ✅ Player Cards with NO Overlays -->
     <div style="display: flex; justify-content: center; gap: 35px; margin-bottom: 40px; padding: 0 60px;">
-      ${team.players.map((player, index) => {
+      ${team.players.map((player, _) => {
         if (!player) {
           return `
             <div style="text-align: center; flex: 1; max-width: 240px;">

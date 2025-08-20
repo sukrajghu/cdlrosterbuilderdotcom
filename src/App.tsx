@@ -2570,12 +2570,12 @@ const handleExportRosters = async () => {
 
         {/* Mobile responsive grid - single column on mobile, 2 columns on large screens */}
         <div ref={rostersRef} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
-          {displayTeams.map((team, index) => (
+          {displayTeams.map((team, teamIndex) => (
             <div key={team.id} className="relative">
               {/* Ranking Badge - only show if custom rankings exist */}
               {Object.keys(customRankings).length > 0 && (
                 <div className="absolute -top-2 -left-2 w-7 h-7 sm:w-8 sm:h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm z-10 shadow-lg">
-                  {customRankings[team.id] || (index + 1)}
+                  {customRankings[team.id] || (teamIndex + 1)}
                 </div>
               )}
               <TeamCard

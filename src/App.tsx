@@ -506,14 +506,14 @@ const RankingsModal = ({
                   
                   {/* Player Preview */}
                   <div className="flex gap-1">
-                    {team.players.slice(0, 4).map((player, index) => (
+                    {team.players.slice(0, 4).map((player, playerIndex) => (
                       <div
-                        key={index}
+                        key={playerIndex}
                         className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs font-medium relative overflow-hidden"
                       >
                         {player ? (
                           <>
-                            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-600 rounded-full z-10" id={`fallback-${player.id}-ranking-${index}`}>
+                            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-600 rounded-full z-10" id={`fallback-${player.id}-ranking-${playerIndex}`}>
                               <span className="text-gray-300">{player.player_name.charAt(0)}</span>
                             </div>
                             <img
@@ -521,7 +521,7 @@ const RankingsModal = ({
                               alt={player.player_name}
                               className="absolute inset-0 w-full h-full object-cover rounded-full z-30"
                               onLoad={(_e) => {
-                                const fallback = document.getElementById(`fallback-${player.id}-ranking-${index}`);
+                                const fallback = document.getElementById(`fallback-${player.id}-ranking-${playerIndex}`);
                                 if (fallback) fallback.style.display = 'none';
                               }}
                               onError={(e) => {

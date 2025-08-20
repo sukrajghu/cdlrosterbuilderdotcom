@@ -29,18 +29,18 @@ interface Team {
 
 // CDL Team configurations
 const CDL_TEAMS = [
-  { id: 'heretics', name: 'MIAMI HERETICS', brandColor: '#ea580c', logo: '/team-logos/heretics.png' },
-  { id: 'optic', name: 'OPTIC TEXAS', brandColor: '#16a34a', logo: '/team-logos/optic.png' },
-  { id: 'thieves', name: 'LA THIEVES', brandColor: '#e11d48', logo: '/team-logos/thieves.png' },
-  { id: 'faze', name: 'ATLANTA FAZE', brandColor: '#dc2626', logo: '/team-logos/faze.png' },
-  { id: 'koi', name: 'TORONTO KOI', brandColor: '#7c3aed', logo: '/team-logos/koi.png' },
-  { id: 'falcons', name: 'VEGAS FALCONS', brandColor: '#059669', logo: '/team-logos/falcons.png' },
-  { id: 'surge', name: 'VANCOUVER SURGE', brandColor: '#0891b2', logo: '/team-logos/surge.png' },
-  { id: 'breach', name: 'BOSTON BREACH', brandColor: '#2563eb', logo: '/team-logos/breach.png' },
-  { id: 'ravens', name: 'CAROLINA ROYAL RAVENS', brandColor: '#2563eb', logo: '/team-logos/ravens.png' },
-  { id: 'g2', name: 'MINNESOTA ROKKR', brandColor: '#f97316', logo: '/team-logos/g2.png' },
-  { id: 'cloud9', name: 'CLOUD9 NY', brandColor: '#3b82f6', logo: '/team-logos/cloud9.png' },
-  { id: 'gentlemates', name: 'LA GENTLE M8', brandColor: '#9333ea', logo: '/team-logos/gentlem8.png' }
+  { id: 'heretics', name: 'MIAMI HERETICS', brandColor: '#FF6D17', logo: '/team-logos/heretics.png' },
+  { id: 'optic', name: 'OPTIC TEXAS', brandColor: '#92C850', logo: '/team-logos/optic.png' },
+  { id: 'thieves', name: 'LA THIEVES', brandColor: '#FF0000', logo: '/team-logos/thieves.png' },
+  { id: 'faze', name: 'ATLANTA FAZE', brandColor: '#E43C2F', logo: '/team-logos/faze.png' },
+  { id: 'koi', name: 'TORONTO KOI', brandColor: '#4B9BEC', logo: '/team-logos/koi.png' },
+  { id: 'falcons', name: 'VEGAS FALCONS', brandColor: '#01BE6E', logo: '/team-logos/falcons.png' },
+  { id: 'surge', name: 'VANCOUVER SURGE', brandColor: '#00667D', logo: '/team-logos/surge.png' },
+  { id: 'breach', name: 'BOSTON BREACH', brandColor: '#03FF5C', logo: '/team-logos/breach.png' },
+  { id: 'ravens', name: 'CAROLINA ROYAL RAVENS', brandColor: '#0083C1', logo: '/team-logos/ravens.png' },
+  { id: 'g2', name: 'MINNESOTA ROKKR', brandColor: '#342565', logo: '/team-logos/g2.png' },
+  { id: 'cloud9', name: 'CLOUD9 NY', brandColor: '#00AEEF', logo: '/team-logos/cloud9.png' },
+  { id: 'gentlemates', name: 'LA GENTLE M8', brandColor: '#F947B7', logo: '/team-logos/gentlem8.png' }
 ];
 
 // Header Component - Cool gaming-inspired design
@@ -476,12 +476,19 @@ const RankingsModal = ({
                   
                   {/* Team Logo */}
                   <div 
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center flex-shrink-0"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg bg-gray-800 flex-shrink-0 border-2 border-gray-600 shadow-md"
                     style={{ 
-                      backgroundImage: team.logo ? `url(${team.logo})` : 'none'
+                      backgroundImage: team.logo ? `url(${team.logo})` : 'none',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center'
                     }}
                   >
-                    {!team.logo && team.name.charAt(0)}
+                    {!team.logo && (
+                      <span className="text-gray-300 font-black">
+                        {team.name.split(' ')[0].charAt(0)}
+                      </span>
+                    )}
                   </div>
                   
                   {/* Team Info */}
@@ -768,13 +775,21 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
         }}
       >
         <div className="flex items-center justify-between mb-2 sm:mb-3">
-          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+          <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
             <div 
-              className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-black bg-cover bg-center flex-shrink-0"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center text-white font-bold text-xl bg-gray-800 flex-shrink-0 border-2 border-gray-600 shadow-lg"
               style={{ 
-                backgroundImage: team.logo ? `url(${team.logo})` : 'none'
+                backgroundImage: team.logo ? `url(${team.logo})` : 'none',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center'
               }}
             >
+              {!team.logo && (
+                <span className="text-gray-300 font-black text-xl sm:text-2xl">
+                  {team.name.split(' ')[0].charAt(0)}
+                </span>
+              )}
             </div>
             <div className="min-w-0 flex-1">
               <h3 
@@ -1345,49 +1360,990 @@ export default function App() {
     }));
   };
 
-  const handleExportRosters = async () => {
-    if (!rostersRef.current) return;
+  // Replace your export functions with this clean, professional version:
 
-    try {
-      const canvas = await html2canvas(rostersRef.current, {
-        backgroundColor: '#111827',
-        scale: 2,
-        logging: false,
-        useCORS: true
-      });
-      
-      const link = document.createElement('a');
-      link.download = `cdl-rosters-${new Date().toISOString().split('T')[0]}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    } catch (error) {
-      console.error('Error exporting rosters:', error);
-    }
-  };
+const generateEnhancedTeamExport = async (teamId: string) => {
+  const team = teams.find(t => t.id === teamId);
+  if (!team) return;
 
-  const handleExportTeam = async (teamId: string) => {
-    const teamElement = document.getElementById(`team-${teamId}`);
-    if (!teamElement) return;
+  const exportContainer = document.createElement('div');
+  exportContainer.style.cssText = `
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 1400px;
+    height: 1400px;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    font-family: 'Arial Black', Arial, sans-serif;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  `;
 
-    try {
-      const canvas = await html2canvas(teamElement, {
-        backgroundColor: '#111827',
-        scale: 2,
-        logging: false,
-        useCORS: true
-      });
+  // Calculate team stats
+  const teamStats = calculateTeamStats(team.players);
+  const teamRating = Math.round(calculateTeamRating(team.players));
+
+  exportContainer.innerHTML = `
+    <!-- ✅ Enhanced Background & Atmosphere -->
+    
+    <!-- Dynamic Radial Glows -->
+    <div style="position: absolute; top: 20%; left: 20%; width: 600px; height: 600px; background: radial-gradient(circle, ${team.brandColor}15 0%, transparent 60%); filter: blur(40px); border-radius: 50%;"></div>
+    <div style="position: absolute; bottom: 15%; right: 25%; width: 500px; height: 500px; background: radial-gradient(circle, ${team.brandColor}20 0%, transparent 70%); filter: blur(30px); border-radius: 50%;"></div>
+    <div style="position: absolute; top: 50%; left: 50%; width: 800px; height: 800px; background: radial-gradient(circle, ${team.brandColor}08 0%, transparent 80%); filter: blur(60px); border-radius: 50%; transform: translate(-50%, -50%);"></div>
+    
+    <!-- Floating Particles with Animation -->
+    <div style="position: absolute; inset: 0;">
+      <div style="position: absolute; top: 15%; left: 8%; width: 4px; height: 4px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 15px ${team.brandColor}80;"></div>
+      <div style="position: absolute; top: 25%; right: 12%; width: 3px; height: 3px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 10px #ffffff60;"></div>
+      <div style="position: absolute; top: 65%; left: 15%; width: 5px; height: 5px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 20px ${team.brandColor}80;"></div>
+      <div style="position: absolute; bottom: 20%; right: 20%; width: 2px; height: 2px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 8px #ffffff40;"></div>
+      <div style="position: absolute; top: 40%; left: 6%; width: 3px; height: 3px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 12px ${team.brandColor}60;"></div>
+      <div style="position: absolute; bottom: 35%; left: 80%; width: 4px; height: 4px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 15px #ffffff50;"></div>
+    </div>
+    
+    <!-- Enhanced Tech Grid with Multiple Layers -->
+    <div style="position: absolute; inset: 0; opacity: 0.15;">
+      <div style="
+        position: absolute; 
+        inset: 0; 
+        background-image: 
+          linear-gradient(${team.brandColor}40 1px, transparent 1px),
+          linear-gradient(90deg, ${team.brandColor}40 1px, transparent 1px);
+        background-size: 40px 40px;
+      "></div>
+      <div style="
+        position: absolute; 
+        inset: 0; 
+        background-image: 
+          linear-gradient(${team.brandColor}20 1px, transparent 1px),
+          linear-gradient(90deg, ${team.brandColor}20 1px, transparent 1px);
+        background-size: 80px 80px;
+        transform: translate(20px, 20px);
+      "></div>
+    </div>
       
-      const team = teams.find(t => t.id === teamId);
-      const teamName = team?.name.toLowerCase().replace(/\s+/g, '-') || teamId;
+    <!-- Enhanced Circuit Pattern Networks -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 100%;">
+      <!-- Main Circuit Lines -->
+      <div style="position: absolute; top: 18%; left: -15%; width: 130%; height: 4px; background: linear-gradient(90deg, transparent, ${team.brandColor}60, ${team.brandColor}80, ${team.brandColor}60, transparent); transform: rotate(-12deg); box-shadow: 0 0 15px ${team.brandColor}50;"></div>
+      <div style="position: absolute; top: 38%; right: -15%; width: 130%; height: 3px; background: linear-gradient(90deg, transparent, ${team.brandColor}50, ${team.brandColor}70, transparent); transform: rotate(18deg); box-shadow: 0 0 10px ${team.brandColor}40;"></div>
+      <div style="position: absolute; bottom: 42%; left: -15%; width: 130%; height: 4px; background: linear-gradient(90deg, transparent, ${team.brandColor}55, ${team.brandColor}75, ${team.brandColor}55, transparent); transform: rotate(-8deg); box-shadow: 0 0 12px ${team.brandColor}45;"></div>
       
-      const link = document.createElement('a');
-      link.download = `${teamName}-roster-${new Date().toISOString().split('T')[0]}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    } catch (error) {
-      console.error('Error exporting team roster:', error);
-    }
-  };
+      <!-- Secondary Circuit Lines -->
+      <div style="position: absolute; top: 28%; left: -10%; width: 120%; height: 2px; background: linear-gradient(90deg, transparent, ${team.brandColor}30, transparent); transform: rotate(-5deg);"></div>
+      <div style="position: absolute; bottom: 30%; right: -10%; width: 120%; height: 2px; background: linear-gradient(90deg, transparent, ${team.brandColor}35, transparent); transform: rotate(15deg);"></div>
+    </div>
+      
+    <!-- Enhanced Geometric Elements with Layered Depth -->
+    <div style="position: absolute; inset: 0;">
+      <!-- Main Corner Elements -->
+      <div style="position: absolute; top: -100px; left: -100px; width: 300px; height: 300px; border: 4px solid ${team.brandColor}50; transform: rotate(45deg); border-radius: 25px; box-shadow: 0 0 30px ${team.brandColor}30;"></div>
+      <div style="position: absolute; top: -60px; left: -60px; width: 220px; height: 220px; border: 2px solid ${team.brandColor}30; transform: rotate(30deg); border-radius: 20px;"></div>
+      
+      <div style="position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; border: 3px solid ${team.brandColor}40; border-radius: 50%; box-shadow: 0 0 25px ${team.brandColor}25;"></div>
+      <div style="position: absolute; top: -30px; right: -30px; width: 160px; height: 160px; border: 2px solid ${team.brandColor}20; border-radius: 50%;"></div>
+      
+      <div style="position: absolute; bottom: -100px; right: -100px; width: 300px; height: 300px; border: 4px solid ${team.brandColor}45; transform: rotate(-25deg); border-radius: 20px; box-shadow: 0 0 35px ${team.brandColor}25;"></div>
+      <div style="position: absolute; bottom: -70px; left: -70px; width: 240px; height: 240px; border: 3px solid ${team.brandColor}35; border-radius: 50%; box-shadow: 0 0 20px ${team.brandColor}20;"></div>
+    </div>
+      
+    <!-- Enhanced Circuit Networks with Glowing Connection Points -->
+    <div style="position: absolute; top: 25%; right: 8%; width: 150px; height: 100px;">
+      <div style="width: 100%; height: 3px; background: linear-gradient(90deg, ${team.brandColor}40, ${team.brandColor}60, ${team.brandColor}40); margin-bottom: 20px; box-shadow: 0 0 8px ${team.brandColor}50;"></div>
+      <div style="width: 70%; height: 2px; background: linear-gradient(90deg, ${team.brandColor}30, ${team.brandColor}50); margin-bottom: 20px; box-shadow: 0 0 6px ${team.brandColor}40;"></div>
+      <div style="width: 85%; height: 3px; background: linear-gradient(90deg, ${team.brandColor}35, ${team.brandColor}55, ${team.brandColor}35); box-shadow: 0 0 8px ${team.brandColor}45;"></div>
+      
+      <!-- Glowing Connection Points -->
+      <div style="position: absolute; right: 0; top: 0; width: 12px; height: 12px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 20px ${team.brandColor}80;"></div>
+      <div style="position: absolute; right: 30%; top: 20px; width: 10px; height: 10px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 15px ${team.brandColor}70;"></div>
+      <div style="position: absolute; right: 15%; bottom: 0; width: 12px; height: 12px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 20px ${team.brandColor}80;"></div>
+    </div>
+    
+    <!-- Mirror Circuit Network -->
+    <div style="position: absolute; bottom: 25%; left: 8%; width: 140px; height: 90px;">
+      <div style="width: 90%; height: 2px; background: linear-gradient(90deg, ${team.brandColor}30, ${team.brandColor}50, ${team.brandColor}30); margin-bottom: 18px; box-shadow: 0 0 6px ${team.brandColor}40;"></div>
+      <div style="width: 100%; height: 3px; background: linear-gradient(90deg, ${team.brandColor}40, ${team.brandColor}60); margin-bottom: 18px; box-shadow: 0 0 8px ${team.brandColor}50;"></div>
+      <div style="width: 75%; height: 2px; background: linear-gradient(90deg, ${team.brandColor}35, ${team.brandColor}55); box-shadow: 0 0 6px ${team.brandColor}45;"></div>
+      
+      <!-- Connection Points -->
+      <div style="position: absolute; left: 88%; top: 0; width: 10px; height: 10px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 15px ${team.brandColor}70;"></div>
+      <div style="position: absolute; right: 0; top: 18px; width: 12px; height: 12px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 20px ${team.brandColor}80;"></div>
+      <div style="position: absolute; left: 73%; bottom: 0; width: 10px; height: 10px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 15px ${team.brandColor}70;"></div>
+    </div>
+    
+    <!-- Additional Tech Elements with Enhanced Glow -->
+    <div style="position: absolute; bottom: 30%; right: 12%; width: 3px; height: 120px; background: linear-gradient(180deg, transparent, ${team.brandColor}50, ${team.brandColor}70, ${team.brandColor}50, transparent); box-shadow: 0 0 10px ${team.brandColor}50;"></div>
+    <div style="position: absolute; top: 30%; left: 5%; width: 3px; height: 100px; background: linear-gradient(180deg, transparent, ${team.brandColor}45, ${team.brandColor}65, transparent); box-shadow: 0 0 8px ${team.brandColor}45;"></div>
+    
+    <!-- ✅ Visible Logo Integration - Top-Left Logo -->
+    <div style="position: absolute; top: 40px; left: 40px; z-index: 100;">
+      <div style="
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, ${team.brandColor}, ${team.brandColor}dd);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 30px ${team.brandColor}80, 0 0 60px ${team.brandColor}50;
+        border: 3px solid rgba(255,255,255,0.3);
+        overflow: hidden;
+        position: relative;
+      ">
+        <!-- Enhanced Inner Glow -->
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 30%, ${team.brandColor}20 100%); border-radius: 50%;"></div>
+        
+        <img 
+          src="/apple-touch-icon.png" 
+          style="
+            width: 50px; 
+            height: 50px; 
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+            z-index: 10;
+            position: relative;
+          "
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
+        <span style="
+          display: none;
+          font-size: 36px;
+          font-weight: 900;
+          color: white;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+          z-index: 10;
+          position: relative;
+        ">R</span>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <div style="text-align: center; padding: 30px 60px 30px; position: relative;">
+      <div style="
+        background: linear-gradient(135deg, #1f2937, #374151); 
+        color: white; 
+        display: inline-block; 
+        padding: 20px 60px;
+        position: relative;
+        clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+        margin-bottom: 15px;
+        border: 2px solid ${team.brandColor}60;
+        box-shadow: 0 0 40px ${team.brandColor}40, 0 0 80px ${team.brandColor}20;
+      ">
+        <!-- Team Color Accent Bar -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${team.brandColor}, ${team.brandColor}dd, ${team.brandColor}); box-shadow: 0 0 15px ${team.brandColor}60;"></div>
+        
+        <div style="font-size: 28px; font-weight: 900; margin: 0 0 6px 0; letter-spacing: 2px; text-shadow: 0 0 20px ${team.brandColor}50;">${team.name}</div>
+        <div style="font-size: 16px; font-weight: 700; margin: 0; letter-spacing: 1px; color: #94a3b8;">CDLROSTERBUILDER.COM</div>
+      </div>
+    </div>
+
+    <!-- ✅ Player Cards with NO Overlays -->
+    <div style="display: flex; justify-content: center; gap: 35px; margin-bottom: 40px; padding: 0 60px;">
+      ${team.players.map((player, index) => {
+        if (!player) {
+          return `
+            <div style="text-align: center; flex: 1; max-width: 240px;">
+              <!-- Rating Number -->
+              <div style="font-size: 64px; font-weight: 900; color: #4b5563; margin-bottom: 20px; line-height: 1; text-shadow: 0 0 20px rgba(75, 85, 99, 0.5);">?</div>
+              
+              <!-- Player Image -->
+              <div style="
+                width: 160px;
+                height: 160px;
+                margin: 0 auto 20px;
+                border-radius: 10px;
+                overflow: hidden;
+                background: linear-gradient(135deg, #374151, #4b5563);
+                border: 3px solid #4b5563;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #6b7280;
+                font-size: 16px;
+                font-weight: 700;
+                box-shadow: 0 0 20px rgba(75, 85, 99, 0.3);
+              ">
+                NO PLAYER
+              </div>
+              
+              <!-- Player Name -->
+              <div style="
+                background: linear-gradient(135deg, #374151, #4b5563);
+                color: white;
+                padding: 12px;
+                font-size: 18px;
+                font-weight: 900;
+                letter-spacing: 1px;
+                border-radius: 6px;
+                border: 2px solid #6b7280;
+                box-shadow: 0 0 12px rgba(107, 114, 128, 0.3);
+              ">
+                TBD
+              </div>
+            </div>
+          `;
+        }
+
+        const playerRating = Math.round(playerRatings.get(player.id) || player.slayer_rating);
+
+        return `
+          <div style="text-align: center; flex: 1; max-width: 240px;">
+            <!-- Rating Number with Enhanced Glow -->
+            <div style="
+              font-size: 64px; 
+              font-weight: 900; 
+              color: white; 
+              margin-bottom: 20px; 
+              line-height: 1;
+              text-shadow: 0 0 30px ${team.brandColor}90, 0 0 60px ${team.brandColor}60;
+              filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6));
+            ">${playerRating}</div>
+            
+            <!-- Player Image with NO Overlays -->
+            <div style="
+              width: 160px;
+              height: 160px;
+              margin: 0 auto 20px;
+              border-radius: 10px;
+              overflow: hidden;
+              background: #1f2937;
+              position: relative;
+              border: 3px solid ${team.brandColor}90;
+              box-shadow: 0 0 25px ${team.brandColor}50, 0 0 50px ${team.brandColor}30;
+            ">
+              <img 
+                src="${player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}" 
+                style="
+                  width: 100%; 
+                  height: 100%; 
+                  object-fit: cover; 
+                  object-position: center top;
+                  filter: saturate(1.2) contrast(1.1) brightness(1.05);
+                "
+                onerror="this.style.display='none';"
+              />
+            </div>
+            
+            <!-- Enhanced Player Name Section -->
+            <div style="
+              background: linear-gradient(135deg, #1f2937, #374151);
+              color: white;
+              padding: 12px;
+              font-size: 18px;
+              font-weight: 900;
+              letter-spacing: 1px;
+              text-transform: uppercase;
+              border-radius: 6px;
+              border: 2px solid ${team.brandColor}70;
+              box-shadow: 0 0 20px ${team.brandColor}40, 0 0 40px ${team.brandColor}20;
+              position: relative;
+              overflow: hidden;
+            ">
+              <!-- Gradient Overlay -->
+              <div style="position: absolute; inset: 0; background: linear-gradient(135deg, ${team.brandColor}15 0%, transparent 50%, ${team.brandColor}10 100%);"></div>
+              
+              <!-- Enhanced Typography with Shadow -->
+              <div style="position: relative; z-index: 10; text-shadow: 0 2px 6px rgba(0,0,0,0.8), 0 0 12px ${team.brandColor}30;">
+                ${player.player_name}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- ✅ Upgraded Stats Section with Visual Progress Bars -->
+    <div style="padding: 0 60px; margin-bottom: 60px;">
+      <div style="
+        background: linear-gradient(135deg, rgba(31, 41, 59, 0.95), rgba(55, 65, 81, 0.8));
+        border: 3px solid ${team.brandColor}60;
+        border-radius: 20px;
+        padding: 50px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 60px ${team.brandColor}35, 0 0 120px ${team.brandColor}20;
+        position: relative;
+        overflow: hidden;
+      ">
+        <!-- Enhanced Card Accent with Glow -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, ${team.brandColor}, ${team.brandColor}cc, ${team.brandColor}); box-shadow: 0 0 20px ${team.brandColor}60;"></div>
+        
+        <!-- Enhanced Background Tech Pattern -->
+        <div style="position: absolute; inset: 0; opacity: 0.08;">
+          <div style="
+            background-image: 
+              linear-gradient(${team.brandColor}60 1px, transparent 1px),
+              linear-gradient(90deg, ${team.brandColor}60 1px, transparent 1px);
+            background-size: 30px 30px;
+            width: 100%;
+            height: 100%;
+          "></div>
+          <div style="
+            background-image: 
+              linear-gradient(${team.brandColor}30 1px, transparent 1px),
+              linear-gradient(90deg, ${team.brandColor}30 1px, transparent 1px);
+            background-size: 60px 60px;
+            width: 100%;
+            height: 100%;
+            transform: translate(15px, 15px);
+          "></div>
+        </div>
+        
+        <h2 style="font-size: 48px; font-weight: 900; color: white; margin-bottom: 45px; letter-spacing: 3px; text-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 25px ${team.brandColor}40; text-align: center; position: relative; z-index: 10;">TEAM STATS</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-bottom: 30px;">
+          <!-- ✅ Enhanced Hardpoint Stats with Progress Bars -->
+          <div style="text-align: center; background: rgba(0,0,0,0.6); padding: 35px 25px; border-radius: 16px; border: 2px solid ${team.brandColor}40; box-shadow: 0 0 30px ${team.brandColor}25; position: relative; overflow: hidden;">
+            <!-- Gradient Accent Bar -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #60a5fa, #34d399, #a78bfa);"></div>
+            
+            <div style="font-size: 22px; color: ${team.brandColor}; font-weight: 900; margin-bottom: 25px; letter-spacing: 2px; text-shadow: 0 0 15px ${team.brandColor}50;">HARDPOINT</div>
+            
+            <!-- K/10M -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">K/10M:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #60a5fa; text-shadow: 0 0 10px #60a5fa50;">${teamStats.hp_k10m.toFixed(1)}</span>
+              </div>
+            </div>
+            
+            <!-- DMG -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">DMG:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #34d399; text-shadow: 0 0 10px #34d39950;">${Math.round(teamStats.hp_dmg10m)}</span>
+              </div>
+            </div>
+            
+            <!-- OBJ -->
+            <div style="position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">OBJ:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #a78bfa; text-shadow: 0 0 10px #a78bfa50;">${teamStats.hp_obj10m.toFixed(1)}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✅ Enhanced Search & Destroy Stats with Progress Bars -->
+          <div style="text-align: center; background: rgba(0,0,0,0.6); padding: 35px 25px; border-radius: 16px; border: 2px solid ${team.brandColor}40; box-shadow: 0 0 30px ${team.brandColor}25; position: relative; overflow: hidden;">
+            <!-- Gradient Accent Bar -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #fbbf24, #f87171, #a855f7);"></div>
+            
+            <div style="font-size: 22px; color: ${team.brandColor}; font-weight: 900; margin-bottom: 25px; letter-spacing: 2px; text-shadow: 0 0 15px ${team.brandColor}50;">SEARCH & DESTROY</div>
+            
+            <!-- KPR -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">KPR:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #fbbf24; text-shadow: 0 0 10px #fbbf2450;">${teamStats.snd_kpr.toFixed(2)}</span>
+              </div>
+            </div>
+            
+            <!-- FB/SND -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">FB/SND:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #f87171; text-shadow: 0 0 10px #f8717150;">${teamStats.first_bloods_per_snd_map.toFixed(2)}</span>
+              </div>
+            </div>
+            
+            <!-- P+D/SND -->
+            <div style="position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">P+D/SND:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #a855f7; text-shadow: 0 0 10px #a855f750;">${teamStats.plants_defuses_per_snd_map.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✅ Enhanced Control Stats with Progress Bars -->
+          <div style="text-align: center; background: rgba(0,0,0,0.6); padding: 35px 25px; border-radius: 16px; border: 2px solid ${team.brandColor}40; box-shadow: 0 0 30px ${team.brandColor}25; position: relative; overflow: hidden;">
+            <!-- Gradient Accent Bar -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #06b6d4, #ec4899, #fb923c);"></div>
+            
+            <div style="font-size: 22px; color: ${team.brandColor}; font-weight: 900; margin-bottom: 25px; letter-spacing: 2px; text-shadow: 0 0 15px ${team.brandColor}50;">CONTROL</div>
+            
+            <!-- K/10M -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">K/10M:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #06b6d4; text-shadow: 0 0 10px #06b6d450;">${teamStats.ctl_k10m.toFixed(1)}</span>
+              </div>
+            </div>
+            
+            <!-- DMG -->
+            <div style="margin-bottom: 20px; position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">DMG:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #ec4899; text-shadow: 0 0 10px #ec489950;">${Math.round(teamStats.ctl_dmg10m)}</span>
+              </div>
+            </div>
+            
+            <!-- Zones/CTL -->
+            <div style="position: relative;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">Zones/CTL:</span>
+                <span style="font-size: 20px; font-weight: 900; color: #fb923c; text-shadow: 0 0 10px #fb923c50;">${teamStats.zone_captures_per_ctl_map.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Overall Rating - Enhanced Pattern Design -->
+    <div style="display: flex; justify-content: center; padding: 0 40px; margin-bottom: 80px;">
+      <div style="
+        background: linear-gradient(135deg, rgba(0,0,0,0.98), rgba(31, 41, 59, 0.95));
+        border: 3px solid ${team.brandColor}70;
+        border-radius: 16px;
+        padding: 30px 40px;
+        text-align: center;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 60px ${team.brandColor}40, 0 0 120px ${team.brandColor}25;
+        position: relative;
+        overflow: hidden;
+        width: 280px;
+      ">
+        <!-- Enhanced Geometric Pattern Background -->
+        <div style="position: absolute; inset: 0; opacity: 0.08;">
+          <div style="position: absolute; top: 15px; left: 15px; width: 30px; height: 30px; border: 2px solid ${team.brandColor}; transform: rotate(45deg);"></div>
+          <div style="position: absolute; top: 15px; right: 15px; width: 25px; height: 25px; border: 2px solid ${team.brandColor}; border-radius: 50%;"></div>
+          <div style="position: absolute; bottom: 15px; left: 15px; width: 25px; height: 25px; border: 2px solid ${team.brandColor}; border-radius: 50%;"></div>
+          <div style="position: absolute; bottom: 15px; right: 15px; width: 30px; height: 30px; border: 2px solid ${team.brandColor}; transform: rotate(45deg);"></div>
+          
+          <div style="position: absolute; top: 50%; left: 10px; width: 20px; height: 20px; background: ${team.brandColor}; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); transform: translateY(-50%);"></div>
+          <div style="position: absolute; top: 50%; right: 10px; width: 20px; height: 20px; background: ${team.brandColor}; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); transform: translateY(-50%) rotate(180deg);"></div>
+        </div>
+        
+        <!-- Enhanced Circuit Board Pattern -->
+        <div style="position: absolute; top: 12px; left: 12px; width: 40px; height: 40px; opacity: 0.15;">
+          <div style="position: absolute; top: 10px; left: 0; width: 30px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 6px ${team.brandColor}60;"></div>
+          <div style="position: absolute; top: 20px; left: 5px; width: 20px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 4px ${team.brandColor}50;"></div>
+          <div style="position: absolute; top: 30px; left: 0; width: 25px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 6px ${team.brandColor}60;"></div>
+          <div style="position: absolute; top: 8px; left: 28px; width: 4px; height: 4px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 8px ${team.brandColor}80;"></div>
+          <div style="position: absolute; top: 18px; left: 23px; width: 3px; height: 3px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 6px ${team.brandColor}70;"></div>
+          <div style="position: absolute; top: 28px; left: 24px; width: 4px; height: 4px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 8px ${team.brandColor}80;"></div>
+        </div>
+        
+        <!-- Mirror Circuit Pattern -->
+        <div style="position: absolute; bottom: 12px; right: 12px; width: 40px; height: 40px; opacity: 0.15; transform: rotate(180deg);">
+          <div style="position: absolute; top: 10px; left: 0; width: 30px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 6px ${team.brandColor}60;"></div>
+          <div style="position: absolute; top: 20px; left: 5px; width: 20px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 4px ${team.brandColor}50;"></div>
+          <div style="position: absolute; top: 30px; left: 0; width: 25px; height: 2px; background: ${team.brandColor}; box-shadow: 0 0 6px ${team.brandColor}60;"></div>
+          <div style="position: absolute; top: 8px; left: 28px; width: 4px; height: 4px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 8px ${team.brandColor}80;"></div>
+          <div style="position: absolute; top: 18px; left: 23px; width: 3px; height: 3px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 6px ${team.brandColor}70;"></div>
+          <div style="position: absolute; top: 28px; left: 24px; width: 4px; height: 4px; background: ${team.brandColor}; border-radius: 50%; box-shadow: 0 0 8px ${team.brandColor}80;"></div>
+        </div>
+        
+        <!-- Enhanced Top Accent Line -->
+        <div style="position: absolute; top: 0; left: 20%; right: 20%; height: 3px; background: linear-gradient(90deg, transparent, ${team.brandColor}, transparent); box-shadow: 0 0 12px ${team.brandColor}60;"></div>
+        
+        <!-- Enhanced Corner Accent Elements -->
+        <div style="position: absolute; top: -2px; left: -2px; width: 20px; height: 20px; border-top: 3px solid ${team.brandColor}; border-left: 3px solid ${team.brandColor}; box-shadow: 0 0 12px ${team.brandColor}50;"></div>
+        <div style="position: absolute; top: -2px; right: -2px; width: 20px; height: 20px; border-top: 3px solid ${team.brandColor}; border-right: 3px solid ${team.brandColor}; box-shadow: 0 0 12px ${team.brandColor}50;"></div>
+        <div style="position: absolute; bottom: -2px; left: -2px; width: 20px; height: 20px; border-bottom: 3px solid ${team.brandColor}; border-left: 3px solid ${team.brandColor}; box-shadow: 0 0 12px ${team.brandColor}50;"></div>
+        <div style="position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px; border-bottom: 3px solid ${team.brandColor}; border-right: 3px solid ${team.brandColor}; box-shadow: 0 0 12px ${team.brandColor}50;"></div>
+        
+        <h2 style="font-size: 20px; font-weight: 900; color: white; margin-bottom: 15px; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 15px ${team.brandColor}40; position: relative; z-index: 10;">TEAM OVERALL</h2>
+        
+        <!-- Main Rating Display with Enhanced Effects -->
+        <div style="position: relative; z-index: 10;">
+          <div style="
+            font-size: 56px; 
+            font-weight: 900; 
+            color: ${team.brandColor}; 
+            line-height: 1;
+            text-shadow: 0 0 30px ${team.brandColor}60, 0 0 60px ${team.brandColor}40;
+            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.8));
+            margin-bottom: 8px;
+          ">${teamRating}</div>
+          <div style="font-size: 14px; color: #94a3b8; font-weight: 800; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">RATING</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Enhanced Footer Branding -->
+    <div style="position: absolute; bottom: 30px; right: 40px;">
+      <div style="
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, ${team.brandColor}, ${team.brandColor}dd);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 30px ${team.brandColor}80, 0 0 60px ${team.brandColor}50;
+        border: 3px solid rgba(255,255,255,0.3);
+        overflow: hidden;
+        position: relative;
+      ">
+        <!-- Enhanced Inner Glow Effect -->
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 20%, ${team.brandColor}25 100%); border-radius: 50%;"></div>
+        
+        <!-- Subtle Animated Ring -->
+        <div style="position: absolute; inset: -3px; border: 2px solid ${team.brandColor}40; border-radius: 50%; opacity: 0.6;"></div>
+        
+        <img 
+          src="/apple-touch-icon.png" 
+          style="
+            width: 36px; 
+            height: 36px; 
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.9)) saturate(1.1) brightness(1.05);
+            z-index: 10;
+            position: relative;
+          "
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
+        <span style="
+          display: none;
+          font-size: 30px;
+          font-weight: 900;
+          color: white;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+          z-index: 10;
+          position: relative;
+        ">R</span>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(exportContainer);
+
+  try {
+    const canvas = await html2canvas(exportContainer, {
+      backgroundColor: null,
+      scale: 2,
+      logging: false,
+      useCORS: true,
+      width: 1400,
+      height: 1400,
+      allowTaint: true
+    });
+
+    const link = document.createElement('a');
+    link.download = `${team.name.toLowerCase().replace(/\s+/g, '-')}-team-roster-enhanced.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+  } finally {
+    document.body.removeChild(exportContainer);
+  }
+};
+
+const generateProfessionalAllTeamsExport = async () => {
+  const exportContainer = document.createElement('div');
+  exportContainer.style.cssText = `
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 1400px;
+    min-height: 1200px;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    font-family: 'Arial Black', Arial, sans-serif;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    padding: 40px;
+    box-sizing: border-box;
+  `;
+
+  // Get team data with ratings
+  const displayTeams = getDisplayTeams();
+
+  const teamsHTML = displayTeams.map(team => {
+    const teamRating = Math.round(calculateTeamRating(team.players));
+    
+    return `
+      <div style="
+        background: linear-gradient(135deg, ${team.brandColor}15 0%, rgba(0,0,0,0.8) 100%);
+        border: 2px solid ${team.brandColor}70;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 30px ${team.brandColor}30, 0 0 60px ${team.brandColor}15;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+      ">
+        <!-- Team Header -->
+        <div style="
+          padding: 20px;
+          border-bottom: 2px solid ${team.brandColor}40;
+          background: linear-gradient(135deg, ${team.brandColor}20 0%, rgba(0,0,0,0.7) 100%);
+          position: relative;
+          overflow: hidden;
+        ">
+          <!-- Header accent line -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${team.brandColor}, ${team.brandColor}dd, ${team.brandColor}); box-shadow: 0 0 15px ${team.brandColor}60;"></div>
+          
+          <!-- Tech pattern overlay -->
+          <div style="position: absolute; inset: 0; opacity: 0.1;">
+            <div style="
+              background-image: 
+                linear-gradient(${team.brandColor}60 1px, transparent 1px),
+                linear-gradient(90deg, ${team.brandColor}60 1px, transparent 1px);
+              background-size: 20px 20px;
+              width: 100%;
+              height: 100%;
+            "></div>
+          </div>
+          
+          <div style="display: flex; align-items: center; justify-content: space-between; position: relative; z-10;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+              <!-- Team Logo - Exactly Like Website -->
+              <div style="
+                width: 56px;
+                height: 56px;
+                background: #1f2937;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #374151;
+                overflow: hidden;
+                flex-shrink: 0;
+              ">
+                ${team.logo ? `
+                  <img 
+                    src="${team.logo}" 
+                    style="
+                      width: 100%;
+                      height: 100%;
+                      object-fit: contain;
+                      object-position: center;
+                    "
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                  />
+                ` : ''}
+                <span style="
+                  ${team.logo ? 'display: none;' : 'display: block;'}
+                  font-size: 24px;
+                  font-weight: 900;
+                  color: #6b7280;
+                ">
+                  ${team.name.split(' ')[0].charAt(0)}
+                </span>
+              </div>
+              
+              <!-- Team Info -->
+              <div>
+                <h3 style="
+                  color: white;
+                  font-size: 18px;
+                  font-weight: 900;
+                  margin: 0 0 4px 0;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                  text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 12px ${team.brandColor}30;
+                ">
+                  ${team.name}
+                </h3>
+                <div style="color: #9ca3af; font-size: 12px; font-weight: 600;">
+                  ${team.players.filter(p => p !== null).length}/4 Players
+                </div>
+              </div>
+            </div>
+            
+            <!-- Team Rating -->
+            <div style="text-align: right;">
+              <div style="
+                color: ${team.brandColor};
+                font-size: 28px;
+                font-weight: 900;
+                line-height: 1;
+                text-shadow: 0 0 20px ${team.brandColor}60, 0 0 40px ${team.brandColor}40;
+                filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+                margin-bottom: 2px;
+              ">
+                ${teamRating > 0 ? teamRating : '--'}
+              </div>
+              <div style="color: #9ca3af; font-size: 11px; font-weight: 700; letter-spacing: 1px;">RATING</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Players Grid -->
+        <div style="
+          display: grid; 
+          grid-template-columns: repeat(2, 1fr); 
+          gap: 8px; 
+          padding: 16px;
+          flex: 1;
+        ">
+          ${team.players.map((player, index) => {
+            if (player) {
+              const playerRating = Math.round(playerRatings.get(player.id) || player.slayer_rating);
+              return `
+                <div style="
+                  aspect-ratio: 1;
+                  background: #1f2937;
+                  border-radius: 8px;
+                  position: relative;
+                  overflow: hidden;
+                  border: 1px solid ${team.brandColor}30;
+                ">
+                  <!-- Player Image Background -->
+                  <div style="
+                    position: absolute;
+                    inset: 0;
+                    background: #374151;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10;
+                  " id="fallback-${player.id}-all-${index}">
+                    <span style="font-size: 20px; font-weight: 900; color: #6b7280;">
+                      ${player.player_name.charAt(0)}
+                    </span>
+                  </div>
+                  
+                  <!-- Actual Player Image -->
+                  <img 
+                    src="${player.avatar || `/player-images/${player.player_name.toLowerCase().replace(/\s+/g, '-')}.jpg`}" 
+                    style="
+                      position: absolute;
+                      inset: 0;
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                      object-position: center top;
+                      z-index: 20;
+                    "
+                    onload="document.getElementById('fallback-${player.id}-all-${index}').style.display='none';"
+                    onerror="this.style.display='none';"
+                  />
+                  
+                  <!-- Enhanced Rating Badge -->
+                  <div style="
+                    position: absolute;
+                    top: 6px;
+                    left: 6px;
+                    background: linear-gradient(135deg, #9333ea, #7c3aed);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    font-weight: 900;
+                    font-size: 11px;
+                    z-index: 30;
+                    box-shadow: 0 0 12px rgba(147, 51, 234, 0.6), 0 2px 4px rgba(0,0,0,0.3);
+                    border: 1px solid rgba(255,255,255,0.3);
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+                    min-width: 24px;
+                    text-align: center;
+                  ">
+                    ${playerRating}
+                  </div>
+                  
+                  <!-- Player Name -->
+                  <div style="
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+                    padding: 8px 4px 2px;
+                    z-index: 30;
+                  ">
+                    <div style="
+                      color: white;
+                      font-size: 9px;
+                      font-weight: 700;
+                      text-align: center;
+                      text-transform: uppercase;
+                      letter-spacing: 0.3px;
+                      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+                    ">
+                      ${player.player_name}
+                    </div>
+                  </div>
+                </div>
+              `;
+            } else {
+              return `
+                <div style="
+                  aspect-ratio: 1;
+                  background: #374151;
+                  border-radius: 8px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  color: #6b7280;
+                  font-size: 12px;
+                  font-weight: 600;
+                  border: 1px dashed #6b7280;
+                ">
+                  TBD
+                </div>
+              `;
+            }
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  exportContainer.innerHTML = `
+    <!-- Enhanced Background Effects -->
+    
+    <!-- Dynamic Radial Glows -->
+    <div style="position: absolute; top: 10%; left: 10%; width: 600px; height: 600px; background: radial-gradient(circle, #9333ea15 0%, transparent 60%); filter: blur(40px); border-radius: 50%;"></div>
+    <div style="position: absolute; bottom: 10%; right: 15%; width: 500px; height: 500px; background: radial-gradient(circle, #ea580c20 0%, transparent 70%); filter: blur(30px); border-radius: 50%;"></div>
+    <div style="position: absolute; top: 50%; left: 50%; width: 800px; height: 800px; background: radial-gradient(circle, #8b5cf608 0%, transparent 80%); filter: blur(60px); border-radius: 50%; transform: translate(-50%, -50%);"></div>
+    
+    <!-- Floating Particles -->
+    <div style="position: absolute; inset: 0;">
+      <div style="position: absolute; top: 12%; left: 8%; width: 4px; height: 4px; background: #9333ea; border-radius: 50%; box-shadow: 0 0 15px #9333ea80;"></div>
+      <div style="position: absolute; top: 25%; right: 12%; width: 3px; height: 3px; background: #ea580c; border-radius: 50%; box-shadow: 0 0 10px #ea580c60;"></div>
+      <div style="position: absolute; top: 65%; left: 15%; width: 5px; height: 5px; background: #8b5cf6; border-radius: 50%; box-shadow: 0 0 20px #8b5cf680;"></div>
+      <div style="position: absolute; bottom: 20%; right: 20%; width: 2px; height: 2px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 8px #ffffff40;"></div>
+      <div style="position: absolute; top: 40%; left: 6%; width: 3px; height: 3px; background: #ea580c; border-radius: 50%; box-shadow: 0 0 12px #ea580c60;"></div>
+      <div style="position: absolute; bottom: 35%; left: 85%; width: 4px; height: 4px; background: #9333ea; border-radius: 50%; box-shadow: 0 0 15px #9333ea50;"></div>
+    </div>
+    
+    <!-- Enhanced Tech Grid -->
+    <div style="position: absolute; inset: 0; opacity: 0.08;">
+      <div style="
+        background-image: 
+          linear-gradient(#9333ea40 1px, transparent 1px),
+          linear-gradient(90deg, #9333ea40 1px, transparent 1px);
+        background-size: 40px 40px;
+        width: 100%;
+        height: 100%;
+      "></div>
+      <div style="
+        background-image: 
+          linear-gradient(#ea580c20 1px, transparent 1px),
+          linear-gradient(90deg, #ea580c20 1px, transparent 1px);
+        background-size: 80px 80px;
+        width: 100%;
+        height: 100%;
+        transform: translate(20px, 20px);
+      "></div>
+    </div>
+    
+    <!-- Circuit Pattern Networks -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 100%;">
+      <div style="position: absolute; top: 15%; left: -10%; width: 120%; height: 3px; background: linear-gradient(90deg, transparent, #9333ea60, #9333ea80, #9333ea60, transparent); transform: rotate(-8deg); box-shadow: 0 0 15px #9333ea50;"></div>
+      <div style="position: absolute; top: 35%; right: -10%; width: 120%; height: 2px; background: linear-gradient(90deg, transparent, #ea580c50, #ea580c70, transparent); transform: rotate(12deg); box-shadow: 0 0 10px #ea580c40;"></div>
+      <div style="position: absolute; bottom: 30%; left: -10%; width: 120%; height: 3px; background: linear-gradient(90deg, transparent, #8b5cf655, #8b5cf675, #8b5cf655, transparent); transform: rotate(-5deg); box-shadow: 0 0 12px #8b5cf645;"></div>
+    </div>
+    
+    <!-- Enhanced Geometric Elements -->
+    <div style="position: absolute; inset: 0;">
+      <div style="position: absolute; top: -80px; left: -80px; width: 200px; height: 200px; border: 3px solid #9333ea40; transform: rotate(45deg); border-radius: 20px; box-shadow: 0 0 25px #9333ea25;"></div>
+      <div style="position: absolute; top: -40px; right: -40px; width: 150px; height: 150px; border: 2px solid #ea580c30; border-radius: 50%; box-shadow: 0 0 20px #ea580c20;"></div>
+      <div style="position: absolute; bottom: -60px; right: -60px; width: 180px; height: 180px; border: 3px solid #8b5cf635; transform: rotate(-20deg); border-radius: 15px; box-shadow: 0 0 25px #8b5cf620;"></div>
+      <div style="position: absolute; bottom: -50px; left: -50px; width: 160px; height: 160px; border: 2px solid #9333ea25; border-radius: 50%; box-shadow: 0 0 15px #9333ea15;"></div>
+    </div>
+
+    <!-- Enhanced Header Section -->
+    <div style="text-align: center; margin-bottom: 50px; position: relative; z-index: 100;">
+      <!-- Simple centered header like the individual export -->
+      <div style="
+        background: linear-gradient(135deg, #1f2937, #374151); 
+        color: white; 
+        display: inline-block; 
+        padding: 25px 80px;
+        position: relative;
+        clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 100%, 25px 100%);
+        margin-bottom: 20px;
+        border: 2px solid #9333ea60;
+        box-shadow: 0 0 40px #9333ea40, 0 0 80px #9333ea20;
+      ">
+        <!-- Team Color Accent Bar -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #9333ea, #ea580c, #9333ea); box-shadow: 0 0 15px #9333ea60;"></div>
+        
+        <div style="font-size: 32px; font-weight: 900; margin: 0 0 8px 0; letter-spacing: 2px; text-shadow: 0 0 20px #9333ea50;">CDLROSTERBUILDER.COM</div>
+        <div style="font-size: 16px; font-weight: 700; margin: 0; letter-spacing: 1px; color: #94a3b8;">My Roster Predictions for the BO7 Season!</div>
+      </div>
+    </div>
+
+    <!-- Enhanced Teams Grid -->
+    <div style="
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      position: relative;
+      z-index: 50;
+    ">
+      ${teamsHTML}
+    </div>
+    
+    <!-- Enhanced Footer Logo -->
+    <div style="position: absolute; bottom: 30px; right: 40px; z-index: 100;">
+      <div style="
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #9333ea, #ea580c);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 25px #9333ea70, 0 0 50px #9333ea40;
+        border: 2px solid rgba(255,255,255,0.2);
+        overflow: hidden;
+        position: relative;
+      ">
+        <!-- Enhanced Inner Glow -->
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 20%, #9333ea25 100%); border-radius: 50%;"></div>
+        
+        <img 
+          src="/apple-touch-icon.png" 
+          style="
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.9));
+            z-index: 10;
+            position: relative;
+          "
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
+        <span style="
+          display: none;
+          font-size: 24px;
+          font-weight: 900;
+          color: white;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+          z-index: 10;
+          position: relative;
+        ">R</span>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(exportContainer);
+
+  try {
+    const canvas = await html2canvas(exportContainer, {
+      backgroundColor: null,
+      scale: 2,
+      logging: false,
+      useCORS: true,
+      width: 1400,
+      height: exportContainer.offsetHeight,
+      allowTaint: true
+    });
+
+    const link = document.createElement('a');
+    link.download = `cdl-all-rosters-enhanced-${new Date().toISOString().split('T')[0]}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+  } finally {
+    document.body.removeChild(exportContainer);
+  }
+};
+
+const handleExportTeam = async (teamId: string) => {
+  await generateEnhancedTeamExport(teamId);
+};
+
+const handleExportRosters = async () => {
+  await generateProfessionalAllTeamsExport();
+};
 
   const calculateTeamStats = (players: (Player | null)[]) => {
     const validPlayers = players.filter((p): p is Player => p !== null);

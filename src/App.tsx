@@ -2257,7 +2257,7 @@ const generateProfessionalAllTeamsExport = async () => {
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #9333ea, #ea580c, #9333ea); box-shadow: 0 0 15px #9333ea60;"></div>
         
         <div style="font-size: 32px; font-weight: 900; margin: 0 0 8px 0; letter-spacing: 2px; text-shadow: 0 0 20px #9333ea50;">CDLROSTERBUILDER.COM</div>
-        <div style="font-size: 16px; font-weight: 700; margin: 0; letter-spacing: 1px; color: #94a3b8;">My Roster Predictions for the BO7 Season!</div>
+        <div style="font-size: 16px; font-weight: 700; margin: 0; letter-spacing: 1px; color: #94a3b8;">My Lineup Predictions for the New Season!</div>
       </div>
     </div>
 

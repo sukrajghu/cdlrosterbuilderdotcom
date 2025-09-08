@@ -231,9 +231,10 @@ const Header = ({ onShowFreeAgents, onExportRosters, onShowRankings }: {
               <div className="min-w-0 flex-1">
                 {/* Main title with glow effect */}
                 <div className="flex items-center gap-1">
-                  <span className="text-sm sm:text-xl font-black text-white block truncate tracking-wide">
+                  <h1 className="text-sm sm:text-xl font-black text-white block truncate tracking-wide">
                     CDL<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400">ROSTER</span>BUILDER
-                  </span>
+                  </h1>
+
                   <span className="text-purple-400 text-sm sm:text-xl font-black text-glow">.COM</span>
                 </div>
                 
@@ -894,10 +895,10 @@ const TeamCard = ({ team, onPlayerSelect, onPlayerRemove, playerRatings, onExpor
         </div>
 
         <div className="bg-gray-900 rounded-lg p-2 sm:p-3 border border-gray-800">
-          <h4 className="text-xs font-semibold text-gray-300 mb-2 flex items-center gap-1">
+          <h3 className="text-xs font-semibold text-gray-300 mb-2 flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             Team Statistics
-          </h4>
+          </h3>
           <div className="grid grid-cols-3 gap-1 sm:gap-2 text-xs">
             <div className="text-center">
               <div className={`font-medium ${getRankColor('hp_k10m', team.id)}`}>{team.stats.hp_k10m.toFixed(1)}</div>
@@ -2567,6 +2568,10 @@ const handleExportRosters = async () => {
             </div>
           )}
         </div>
+          <h2 className="text-xl font-black text-center mb-8 tracking-wide">
+            Call Of Duty League <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400">Esports Team Cards</span>
+          </h2>
+
 
         {/* Mobile responsive grid - single column on mobile, 2 columns on large screens */}
         <div ref={rostersRef} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
